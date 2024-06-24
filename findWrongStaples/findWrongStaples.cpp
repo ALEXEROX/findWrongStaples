@@ -16,7 +16,7 @@ int main(int argc, char* argv[])
 	output.open(outputFile);
 
 	vector<string> code;
-	vector<int[2]> positions;
+	vector<vector<int>> positions;
 
 	// Input
 	string line;
@@ -45,7 +45,7 @@ int main(int argc, char* argv[])
 		{
 			if (positions[i][0] == positions[i - 1][0])
 			{
-				for (int i = positions[i - 1][1] + 1; i < positions[i][1]; i++)
+				for (int j = positions[i - 1][1] + 1; j < positions[i][1]; j++)
 					output << " ";
 				output << "^";
 			}
@@ -60,4 +60,11 @@ int main(int argc, char* argv[])
 		}
 	}
 
+	return 0;
+}
+
+
+int findWrongStaples(vector<string>& code, vector<vector<int>>& positions)
+{
+	return 0;
 }

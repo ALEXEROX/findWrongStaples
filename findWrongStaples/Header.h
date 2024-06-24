@@ -1,4 +1,5 @@
 #pragma once
+#pragma warning(disable:4096)
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -11,4 +12,4 @@ using namespace std;
 * \param[out] positions - позиции (индекс строки и индекс символа) найденных скобок
 * \return количество неправильно расположенных скобок
 */
-int findWrongStaples(vector<string> code, vector<int[2]> positions);
+int findWrongStaples(vector<string> &code, vector<vector<int>> &positions);
