@@ -33,7 +33,7 @@ int main(int argc, char* argv[])
 	}
 	else
 	{
-		output << "Обнаружено " << wrongStaples << " ошиб" << ((wrongStaples % 10 == 1 && wrongStaples % 100 != 11) ? "ка" : ((wrongStaples / 10) % 10) != 1 && (wrongStaples % 10 >= 2 && wrongStaples % 10 <= 4) ? "ки" : "ок") << endl;
+		output << "Обнаружено " << wrongStaples << " ошиб" << ((wrongStaples % 10 == 1 && wrongStaples % 100 / 10 != 1) ? "ка" : ((wrongStaples % 10 >= 2 && wrongStaples % 10 <= 4 && wrongStaples % 100 / 10 != 1) ? "ки" : "ок")) << endl;
 		
 		output << positions[0][0] + 1 << " строка:" << endl;
 		output << code[positions[0][0]] << endl;
@@ -66,5 +66,48 @@ int main(int argc, char* argv[])
 
 int findWrongStaples(vector<string>& code, vector<vector<int>>& positions)
 {
+	positions.resize(0);
+	bool inMultyLineComment = false,
+		inString = false;
+	
+	for (int line = 0; line < code.size(); line++)
+	{
+		inString = false;
+
+		for (int symbol = 0; symbol < code[line].size(); symbol++)
+		{
+			if (symbol != code[line].size() - 1)
+			{
+				if (code[line][symbol] == '/')
+				{
+					if (code[line][symbol + 1] == '/')
+						break;
+					else if (code[line][symbol + 1] == '*')
+					{
+						inMultyLineComment = true;
+						symbol++;
+						continue;
+					}
+				}
+				else if (code[line][symbol] == '\'')
+				{
+					symbol += code[line][symbol + 1] == '\'' ? 1 : 2;
+					continue;
+				}
+				else if (code[line][symbol] == '\"')
+				{
+					inString = !inString;
+					continue;
+				}
+				else if (code[line][symbol] == '*' && code[line][symbol + 1] == '/')
+				{
+					inMultyLineComment = false;
+					symbol++;
+					continue;
+				}
+			}
+		}
+	}
+
 	return 0;
 }
