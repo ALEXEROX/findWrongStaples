@@ -108,6 +108,15 @@ int findWrongStaples(vector<string>& code, vector<vector<int>>& positions)
 					continue;
 				}
 			}
+
+			// Find staples
+			if (!inMultyLineComment && !inString)
+			{
+				if(isStaple(code[line][symbol]))
+				{
+					staples.push_back({ line, symbol });
+				}
+			}
 		}
 	}
 
