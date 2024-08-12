@@ -67,6 +67,7 @@ int main(int argc, char* argv[])
 int findWrongStaples(vector<string>& code, vector<vector<int>>& positions)
 {
 	positions.resize(0);
+	vector<vector<int>> staples;
 	bool inMultyLineComment = false,
 		inString = false;
 	
@@ -76,6 +77,7 @@ int findWrongStaples(vector<string>& code, vector<vector<int>>& positions)
 
 		for (int symbol = 0; symbol < code[line].size(); symbol++)
 		{
+			// Checking for unverified zone
 			if (symbol != code[line].size() - 1)
 			{
 				if (code[line][symbol] == '/')
@@ -110,4 +112,9 @@ int findWrongStaples(vector<string>& code, vector<vector<int>>& positions)
 	}
 
 	return 0;
+}
+
+bool isOStaple(char symbol)
+{
+	return symbol == '(' || symbol == '[' || symbol == '{' || symbol == ')' || symbol == ']' || symbol == '}';
 }

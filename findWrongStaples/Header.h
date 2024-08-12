@@ -13,3 +13,9 @@ using namespace std;
 * \return количество неправильно расположенных скобок
 */
 int findWrongStaples(vector<string> &code, vector<vector<int>> &positions);
+
+/*! Определить, является ли символ скобкой ( '()', '[]', '{}' )
+* \param[in] symbol - проверяемый символ
+* \return является ли символ скобкой
+*/
+bool isStaple(char symbol);
