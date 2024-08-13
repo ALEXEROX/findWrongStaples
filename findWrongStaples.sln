@@ -5,6 +5,8 @@ VisualStudioVersion = 17.10.34928.147
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "findWrongStaples", "findWrongStaples\findWrongStaples.vcxproj", "{0759D907-CE25-4F68-B0B6-11DA39A2B14A}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "findWrongStaplesTests", "findWrongStaplesTests\findWrongStaplesTests.vcxproj", "{30E2F87B-A988-41EC-95CF-E96F22EDB4F1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -21,6 +23,14 @@ Global
 		{0759D907-CE25-4F68-B0B6-11DA39A2B14A}.Release|x64.Build.0 = Release|x64
 		{0759D907-CE25-4F68-B0B6-11DA39A2B14A}.Release|x86.ActiveCfg = Release|Win32
 		{0759D907-CE25-4F68-B0B6-11DA39A2B14A}.Release|x86.Build.0 = Release|Win32
+		{30E2F87B-A988-41EC-95CF-E96F22EDB4F1}.Debug|x64.ActiveCfg = Debug|x64
+		{30E2F87B-A988-41EC-95CF-E96F22EDB4F1}.Debug|x64.Build.0 = Debug|x64
+		{30E2F87B-A988-41EC-95CF-E96F22EDB4F1}.Debug|x86.ActiveCfg = Debug|Win32
+		{30E2F87B-A988-41EC-95CF-E96F22EDB4F1}.Debug|x86.Build.0 = Debug|Win32
+		{30E2F87B-A988-41EC-95CF-E96F22EDB4F1}.Release|x64.ActiveCfg = Release|x64
+		{30E2F87B-A988-41EC-95CF-E96F22EDB4F1}.Release|x64.Build.0 = Release|x64
+		{30E2F87B-A988-41EC-95CF-E96F22EDB4F1}.Release|x86.ActiveCfg = Release|Win32
+		{30E2F87B-A988-41EC-95CF-E96F22EDB4F1}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
