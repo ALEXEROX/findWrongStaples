@@ -41,5 +41,13 @@ namespace findWrongStaplesTests
 			int exp_wrongStaples = 0;
 			Assert::AreEqual(exp_wrongStaples, wrongStaples);
 		}
+		TEST_METHOD(TwoPaarRoundStaples)
+		{
+			vector<string> code = { "()()" };
+			vector<vector<int>> positions;
+			int wrongStaples = findWrongStaples(code, positions);
+			int exp_wrongStaples = 0;
+			Assert::AreEqual(exp_wrongStaples, wrongStaples);
+		}
 	};
 }

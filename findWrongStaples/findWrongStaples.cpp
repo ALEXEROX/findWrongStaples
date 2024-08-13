@@ -132,11 +132,13 @@ int findWrongStaples(vector<string>& code, vector<vector<int>>& positions)
 			code[(*iter)[0]][(*iter)[1]] == '{' && code[(*(iter + 1))[0]][(*(iter + 1))[1]] == '}')
 		{
 			iter = positions.erase(iter, iter + 2);
-			if (positions.size() != 0)
-				iter -= 2;
+			if (positions.size() != 0 && iter != positions.begin())
+				iter--;
 		}
-		if (positions.size() != 0)
+		else
+		{
 			iter++;
+		}
 	}
 
 	return positions.size();
