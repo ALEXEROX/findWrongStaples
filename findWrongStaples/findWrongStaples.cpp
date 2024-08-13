@@ -66,7 +66,7 @@ int main(int argc, char* argv[])
 
 int findWrongStaples(vector<string>& code, vector<vector<int>>& positions)
 {
-	positions.resize(0);
+	positions.clear();
 	vector<vector<int>> staples;
 	bool inMultyLineComment = false,
 		inString = false;
@@ -109,21 +109,34 @@ int findWrongStaples(vector<string>& code, vector<vector<int>>& positions)
 				}
 			}
 
-			// Find staples
+			// Search staples
 			if (!inMultyLineComment && !inString)
 			{
 				if(isStaple(code[line][symbol]))
 				{
-					staples.push_back({ line, symbol });
+					positions.push_back({ line, symbol });
 				}
 			}
 		}
 	}
 
-	return 0;
+	// Delete paired staples
+	for (auto iter = positions.cbegin(); iter < positions.cend() - 1; iter++)
+	{
+		if (code[(*iter)[0]][(*iter)[1]] == '(' && code[(*(iter + 1))[0]][(*(iter + 1))[1]] == '(' ||
+			code[(*iter)[0]][(*iter)[1]] == '[' && code[(*(iter + 1))[0]][(*(iter + 1))[1]] == ']' ||
+			code[(*iter)[0]][(*iter)[1]] == '{' && code[(*(iter + 1))[0]][(*(iter + 1))[1]] == '}')
+		{
+			iter = positions.erase(iter, iter + 1);
+			if (iter != positions.cbegin())
+				iter--;
+		}
+	}
+
+	return positions.size();
 }
 
-bool isOStaple(char symbol)
+bool isStaple(char symbol)
 {
 	return symbol == '(' || symbol == '[' || symbol == '{' || symbol == ')' || symbol == ']' || symbol == '}';
 }
