@@ -6,7 +6,7 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace findWrongStaplesTests
 {
-	TEST_CLASS(isStaplesTests)
+	TEST_CLASS(IsStaplesTests)
 	{
 	public:
 		
@@ -26,6 +26,20 @@ namespace findWrongStaplesTests
 			{
 				Assert::AreEqual(false, isStaple(staples[i]));
 			}
+		}
+	};
+
+	TEST_CLASS(FindWrongStaplesSimpleTests)
+	{
+	public:
+
+		TEST_METHOD(RoundStaples)
+		{
+			vector<string> code = { "()" };
+			vector<vector<int>> positions;
+			int wrongStaples = findWrongStaples(code, positions);
+			int exp_wrongStaples = 0;
+			Assert::AreEqual(exp_wrongStaples, wrongStaples);
 		}
 	};
 }
