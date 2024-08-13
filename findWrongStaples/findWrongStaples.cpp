@@ -60,6 +60,9 @@ int main(int argc, char* argv[])
 		}
 	}
 
+	input.close();
+	output.close();
+
 	return 0;
 }
 
@@ -119,18 +122,21 @@ int findWrongStaples(vector<string>& code, vector<vector<int>>& positions)
 			}
 		}
 	}
-
+	  
 	// Delete paired staples
-	for (auto iter = positions.cbegin(); iter < positions.cend() - 1; iter++)
+	auto iter{ positions.begin() };
+	while (iter != positions.end() || positions.size() != 0)
 	{
-		if (code[(*iter)[0]][(*iter)[1]] == '(' && code[(*(iter + 1))[0]][(*(iter + 1))[1]] == '(' ||
+		if (code[(*iter)[0]][(*iter)[1]] == '(' && code[(*(iter + 1))[0]][(*(iter + 1))[1]] == ')' ||
 			code[(*iter)[0]][(*iter)[1]] == '[' && code[(*(iter + 1))[0]][(*(iter + 1))[1]] == ']' ||
 			code[(*iter)[0]][(*iter)[1]] == '{' && code[(*(iter + 1))[0]][(*(iter + 1))[1]] == '}')
 		{
-			iter = positions.erase(iter, iter + 1);
-			if (iter != positions.cbegin())
-				iter--;
+			iter = positions.erase(iter, iter + 2);
+			if (positions.size() != 0)
+				iter -= 2;
 		}
+		if (positions.size() != 0)
+			iter++;
 	}
 
 	return positions.size();
