@@ -6,8 +6,10 @@ int main(int argc, char* argv[])
 	setlocale(LC_ALL, "rus");
 
 	// File names
-	string inputFile = argv[1];
-	string outputFile = argv[2];
+	/*string inputFile = argv[1];
+	string outputFile = argv[2];*/
+	string inputFile = "code.cpp";
+	string outputFile = "output.txt";
 
 	// File streams
 	ifstream input;
@@ -125,7 +127,7 @@ int findWrongStaples(vector<string>& code, vector<vector<int>>& positions)
 	  
 	// Delete paired staples
 	auto iter{ positions.begin() };
-	while (iter != positions.end() && positions.size() != 0)
+	while (positions.size() != 0 && iter != positions.end() - 1)
 	{
 		char currentSymbol = code[(*iter)[0]][(*iter)[1]];
 		char nextSymbol = code[(*(iter + 1))[0]][(*(iter + 1))[1]];
