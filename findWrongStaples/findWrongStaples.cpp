@@ -125,11 +125,14 @@ int findWrongStaples(vector<string>& code, vector<vector<int>>& positions)
 	  
 	// Delete paired staples
 	auto iter{ positions.begin() };
-	while (iter != positions.end() || positions.size() != 0)
+	while (iter != positions.end() && positions.size() != 0)
 	{
-		if (code[(*iter)[0]][(*iter)[1]] == '(' && code[(*(iter + 1))[0]][(*(iter + 1))[1]] == ')' ||
-			code[(*iter)[0]][(*iter)[1]] == '[' && code[(*(iter + 1))[0]][(*(iter + 1))[1]] == ']' ||
-			code[(*iter)[0]][(*iter)[1]] == '{' && code[(*(iter + 1))[0]][(*(iter + 1))[1]] == '}')
+		char currentSymbol = code[(*iter)[0]][(*iter)[1]];
+		char nextSymbol = code[(*(iter + 1))[0]][(*(iter + 1))[1]];
+
+		if (currentSymbol == '(' && nextSymbol == ')' ||
+			currentSymbol == '[' && nextSymbol == ']' ||
+			currentSymbol == '{' && nextSymbol == '}')
 		{
 			iter = positions.erase(iter, iter + 2);
 			if (positions.size() != 0 && iter != positions.begin())
