@@ -119,28 +119,68 @@ int findWrongStaples(vector<string>& code, vector<vector<int>>& positions)
 			{
 				if(isStaple(code[line][symbol]))
 				{
-					positions.push_back({ line, symbol });
+					staples.push_back({ line, symbol });
 				}
 			}
 		}
 	}
 	  
-	// Delete paired staples
-	auto iter{ positions.begin() };
-	while (positions.size() != 0 && iter != positions.end() - 1)
+	// Delete paired staples and add inner unpaired staples
+	int innerLength = 0;
+	while (innerLength < staples.size())
 	{
-		char currentSymbol = code[(*iter)[0]][(*iter)[1]];
-		char nextSymbol = code[(*(iter + 1))[0]][(*(iter + 1))[1]];
+		auto iter{ staples.begin() };
 
-		if (isPairedStaples(currentSymbol, nextSymbol))
+		while (staples.size() != 0 && iter != staples.end() - 1 - innerLength)
 		{
-			iter = positions.erase(iter, iter + 2);
-			if (positions.size() != 0 && iter != positions.begin())
-				iter--;
+			char currentSymbol = code[(*iter)[0]][(*iter)[1]];
+			char nextSymbol = code[(*(iter + innerLength + 1))[0]][(*(iter + innerLength + 1))[1]];
+
+			if (isPairedStaples(currentSymbol, nextSymbol))
+			{
+				if (innerLength != 0)
+				{
+					for (auto innerIter = iter + 1; innerIter < iter + innerLength + 1; innerIter++)
+						positions.push_back(*innerIter);
+
+					staples.erase(iter, iter + 2 + innerLength);
+					innerLength = 0;
+					iter = staples.begin();
+				}
+				else
+				{
+					iter = staples.erase(iter, iter + 2);
+
+					if (staples.size() != 0 && iter != staples.begin())
+						iter--;
+				}
+			}
+			else
+			{
+				iter++;
+			}
 		}
-		else
+
+		innerLength++;
+	}
+
+	// Add remaining staples
+	for (auto iter{ staples.begin() }; iter < staples.end(); iter++)
+	{
+		positions.push_back(*iter);
+	}
+
+	// Sorting
+	for (int i = positions.size() - 1; i >= 2; i--)
+	{
+		for (int j = 0; j < i; j++)
 		{
-			iter++;
+			if (positions[j][0] > positions[j + 1][0] || positions[j][0] == positions[j + 1][0] && positions[j][1] > positions[j + 1][1])
+			{
+				vector<int> pref = positions[j];
+				positions[j] = positions[j + 1];
+				positions[j + 1] = pref;
+			}
 		}
 	}
 
