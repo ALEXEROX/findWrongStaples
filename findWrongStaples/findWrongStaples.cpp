@@ -132,9 +132,7 @@ int findWrongStaples(vector<string>& code, vector<vector<int>>& positions)
 		char currentSymbol = code[(*iter)[0]][(*iter)[1]];
 		char nextSymbol = code[(*(iter + 1))[0]][(*(iter + 1))[1]];
 
-		if (currentSymbol == '(' && nextSymbol == ')' ||
-			currentSymbol == '[' && nextSymbol == ']' ||
-			currentSymbol == '{' && nextSymbol == '}')
+		if (isPairedStaples(currentSymbol, nextSymbol))
 		{
 			iter = positions.erase(iter, iter + 2);
 			if (positions.size() != 0 && iter != positions.begin())
@@ -152,4 +150,9 @@ int findWrongStaples(vector<string>& code, vector<vector<int>>& positions)
 bool isStaple(char symbol)
 {
 	return symbol == '(' || symbol == '[' || symbol == '{' || symbol == ')' || symbol == ']' || symbol == '}';
+}
+
+bool isPairedStaples(char first, char second)
+{
+	return first == '(' && second == ')' || first == '[' && second == ']' || first == '{' && second == '}';
 }

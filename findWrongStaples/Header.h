@@ -19,3 +19,10 @@ int findWrongStaples(vector<string> &code, vector<vector<int>> &positions);
 * \return €вл€етс€ ли символ скобкой
 */
 bool isStaple(char symbol);
+
+/*! ќпределить, €вл€ютс€ ли символы парой скобок
+* \param[in] first - первый символ
+* \param[in] second - второй символ
+* \return €вл€ютс€ ли символы парой скобок
+*/
+bool isPairedStaples(char first, char second);
