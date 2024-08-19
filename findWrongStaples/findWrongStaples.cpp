@@ -21,12 +21,14 @@ int main(int argc, char* argv[])
 	vector<vector<int>> positions;
 	bool mayWork = true;
 
+	// Check input file
 	if (inputFile.substr(inputFile.size() - 4, 4) != ".cpp")
 	{
 		output << "Входной файл имеет неподдерживаемый формат" << endl;
 		mayWork = false;
 	}
 
+	// Check output file
 	if (mayWork && outputFile.substr(outputFile.size() - 4, 4) != ".txt")
 	{
 		output << "Выходной файл имеет неподдерживаемый формат" << endl;
@@ -50,6 +52,7 @@ int main(int argc, char* argv[])
 		}
 	}
 
+	// Check for strings count
 	if (mayWork && lines > 255)
 	{
 		output << "Количество строк превышено" << endl;
