@@ -66,6 +66,9 @@ int main(int argc, char* argv[])
 	input.close();
 	output.close();
 
+	// Open output file in Notepad or other default programm
+	system(outputFile.c_str());
+
 	return 0;
 }
 
