@@ -53,15 +53,16 @@ int main(int argc, char* argv[])
 			}
 			else
 			{
-				output << positions[i][0] + 1 << " строка:" << endl;
+				output << endl << positions[i][0] + 1 << " строка:" << endl;
 				output << code[positions[i][0]] << endl;
-				for (int i = 0; i < positions[i][1]; i++)
+				for (int j = 0; j < positions[i][1]; j++)
 					output << " ";
 				output << "^";
 			}
 		}
 	}
 
+	// Close files
 	input.close();
 	output.close();
 

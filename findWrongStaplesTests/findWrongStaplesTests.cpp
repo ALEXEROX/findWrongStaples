@@ -132,4 +132,104 @@ namespace findWrongStaplesTests
 			}
 		}
 	};
+
+	TEST_CLASS(FindWrongStaplesHardTests)
+	{
+
+	public:
+
+		TEST_METHOD(DefaultCppProject)
+		{
+			vector<string> code =  { "#include <iostream>",
+			"",
+			"using namespace std;",
+			"",
+			"int main(int argc, char* argv[])",
+			"{",
+			"    cout << \"Hello world\" << endl;",
+			"",
+			"    return 0;",
+			"}"};
+
+			vector<vector<int>> positions;
+			int wrongStaples = findWrongStaples(code, positions);
+			int exp_wrongStaples = 0;
+			Assert::AreEqual(exp_wrongStaples, wrongStaples);
+		}
+
+		TEST_METHOD(SkippedSqureStaple)
+		{
+			vector<string> code =  { "#include <iostream>",
+			"",
+			"using namespace std;",
+			"",
+			"int main(int argc, char* argv])",
+			"{",
+			"    cout << \"Hello world\" << endl;",
+			"",
+			"    return 0;",
+			"}"};
+
+			vector<vector<int>> positions;
+			vector<vector<int>> exp_positions{ {4, 29} };
+			int wrongStaples = findWrongStaples(code, positions);
+			int exp_wrongStaples = 1;
+			Assert::AreEqual(exp_wrongStaples, wrongStaples);
+			for (int i = 0; i < exp_wrongStaples; i++)
+			{
+				Assert::AreEqual(exp_positions[i][0], positions[i][0]);
+				Assert::AreEqual(exp_positions[i][1], positions[i][1]);
+			}
+		}
+
+		TEST_METHOD(SkippedRoundStaple)
+		{
+			vector<string> code =  { "#include <iostream>",
+			"",
+			"using namespace std;",
+			"",
+			"int main(int argc, char* argv[]",
+			"{",
+			"    cout << \"Hello world\" << endl;",
+			"",
+			"    return 0;",
+			"}"};
+
+			vector<vector<int>> positions;
+			vector<vector<int>> exp_positions{ {4, 8} };
+			int wrongStaples = findWrongStaples(code, positions);
+			int exp_wrongStaples = 1;
+			Assert::AreEqual(exp_wrongStaples, wrongStaples);
+			for (int i = 0; i < exp_wrongStaples; i++)
+			{
+				Assert::AreEqual(exp_positions[i][0], positions[i][0]);
+				Assert::AreEqual(exp_positions[i][1], positions[i][1]);
+			}
+		}
+
+		TEST_METHOD(SkippedFigureStaple)
+		{
+			vector<string> code =  { "#include <iostream>",
+			"",
+			"using namespace std;",
+			"",
+			"int main(int argc, char* argv[])",
+			"{",
+			"    cout << \"Hello world\" << endl;",
+			"",
+			"    return 0;",
+			""};
+
+			vector<vector<int>> positions;
+			vector<vector<int>> exp_positions{ {5, 0} };
+			int wrongStaples = findWrongStaples(code, positions);
+			int exp_wrongStaples = 1;
+			Assert::AreEqual(exp_wrongStaples, wrongStaples);
+			for (int i = 0; i < exp_wrongStaples; i++)
+			{
+				Assert::AreEqual(exp_positions[i][0], positions[i][0]);
+				Assert::AreEqual(exp_positions[i][1], positions[i][1]);
+			}
+		}
+	};
 }
