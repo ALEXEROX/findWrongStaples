@@ -157,7 +157,7 @@ namespace findWrongStaplesTests
 			Assert::AreEqual(exp_wrongStaples, wrongStaples);
 		}
 
-		TEST_METHOD(SkippedSqureStaple)
+		TEST_METHOD(SkippedSquareStaple)
 		{
 			vector<string> code =  { "#include <iostream>",
 			"",

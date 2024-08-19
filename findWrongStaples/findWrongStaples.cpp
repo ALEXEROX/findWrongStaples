@@ -19,45 +19,79 @@ int main(int argc, char* argv[])
 
 	vector<string> code;
 	vector<vector<int>> positions;
+	bool mayWork = true;
+
+	if (inputFile.substr(inputFile.size() - 4, 4) != ".cpp")
+	{
+		output << "Входной файл имеет неподдерживаемый формат" << endl;
+		mayWork = false;
+	}
+
+	if (mayWork && outputFile.substr(outputFile.size() - 4, 4) != ".txt")
+	{
+		output << "Выходной файл имеет неподдерживаемый формат" << endl;
+		mayWork = false;
+	}
 
 	// Input
-	string line;
-	while (getline(input, line))
-		code.push_back(line);
-
-	// Execution
-	int wrongStaples = findWrongStaples(code, positions);
-
-	// Output
-	if (!wrongStaples)
+	int lines = 0;
+	if (mayWork)
 	{
-		output << "Проверка прошла успешно" << endl;
-	}
-	else
-	{
-		output << "Обнаружено " << wrongStaples << " ошиб" << ((wrongStaples % 10 == 1 && wrongStaples % 100 / 10 != 1) ? "ка" : ((wrongStaples % 10 >= 2 && wrongStaples % 10 <= 4 && wrongStaples % 100 / 10 != 1) ? "ки" : "ок")) << endl;
-		
-		output << positions[0][0] + 1 << " строка:" << endl;
-		output << code[positions[0][0]] << endl;
-		for (int i = 0; i < positions[0][1]; i++)
-			output << " ";
-		output << "^";
-
-		for (int i = 1; i < wrongStaples; i++)
+		string line;
+		while (getline(input, line) && lines++ <= 255)
 		{
-			if (positions[i][0] == positions[i - 1][0])
+			code.push_back(line);
+			if (line.size() > 1000)
 			{
-				for (int j = positions[i - 1][1] + 1; j < positions[i][1]; j++)
-					output << " ";
-				output << "^";
+				output << "Количество символов в строке(-ах) превышено" << endl;
+				mayWork = false;
+				break;
 			}
-			else
+		}
+	}
+
+	if (mayWork && lines > 255)
+	{
+		output << "Количество строк превышено" << endl;
+		mayWork = false;
+	}
+
+	if (mayWork)
+	{
+		// Execution
+		int wrongStaples = findWrongStaples(code, positions);
+
+		// Output
+		if (!wrongStaples)
+		{
+			output << "Проверка прошла успешно" << endl;
+		}
+		else
+		{
+			output << "Обнаружено " << wrongStaples << " ошиб" << ((wrongStaples % 10 == 1 && wrongStaples % 100 / 10 != 1) ? "ка" : ((wrongStaples % 10 >= 2 && wrongStaples % 10 <= 4 && wrongStaples % 100 / 10 != 1) ? "ки" : "ок")) << endl;
+
+			output << positions[0][0] + 1 << " строка:" << endl;
+			output << code[positions[0][0]] << endl;
+			for (int i = 0; i < positions[0][1]; i++)
+				output << " ";
+			output << "^";
+
+			for (int i = 1; i < wrongStaples; i++)
 			{
-				output << endl << positions[i][0] + 1 << " строка:" << endl;
-				output << code[positions[i][0]] << endl;
-				for (int j = 0; j < positions[i][1]; j++)
-					output << " ";
-				output << "^";
+				if (positions[i][0] == positions[i - 1][0])
+				{
+					for (int j = positions[i - 1][1] + 1; j < positions[i][1]; j++)
+						output << " ";
+					output << "^";
+				}
+				else
+				{
+					output << endl << positions[i][0] + 1 << " строка:" << endl;
+					output << code[positions[i][0]] << endl;
+					for (int j = 0; j < positions[i][1]; j++)
+						output << " ";
+					output << "^";
+				}
 			}
 		}
 	}
