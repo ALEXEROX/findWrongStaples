@@ -102,12 +102,17 @@ int findWrongStaples(vector<string>& code, vector<vector<int>>& positions)
 				}
 				else if (code[line][symbol] == '\'')
 				{
-					symbol += code[line][symbol + 1] == '\'' ? 1 : 2;
+					symbol += code[line][symbol + 1] == '\'' ? 1 : (code[line][symbol + 1] != '\\' ? 2 : 3);
 					continue;
 				}
 				else if (code[line][symbol] == '\"')
 				{
 					inString = !inString;
+					continue;
+				}
+				else if (code[line][symbol] == '\\' && code[line][symbol + 1] == '\"')
+				{
+					symbol++;
 					continue;
 				}
 				else if (code[line][symbol] == '*' && code[line][symbol + 1] == '/')
