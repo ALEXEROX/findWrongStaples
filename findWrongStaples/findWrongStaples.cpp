@@ -74,8 +74,9 @@ int main(int argc, char* argv[])
 			output << "Обнаружено " << wrongStaples << " ошиб" << ((wrongStaples % 10 == 1 && wrongStaples % 100 / 10 != 1) ? "ка" : ((wrongStaples % 10 >= 2 && wrongStaples % 10 <= 4 && wrongStaples % 100 / 10 != 1) ? "ки" : "ок")) << endl;
 
 			output << positions[0][0] + 1 << " строка:" << endl;
+			int clearedBegin = deleteBeginSpaces(code[positions[0][0]]);
 			output << code[positions[0][0]] << endl;
-			for (int i = 0; i < positions[0][1]; i++)
+			for (int i = 0; i < positions[0][1] - clearedBegin; i++)
 				output << " ";
 			output << "^";
 
@@ -90,8 +91,9 @@ int main(int argc, char* argv[])
 				else
 				{
 					output << endl << positions[i][0] + 1 << " строка:" << endl;
+					clearedBegin = deleteBeginSpaces(code[positions[i][0]]);
 					output << code[positions[i][0]] << endl;
-					for (int j = 0; j < positions[i][1]; j++)
+					for (int j = 0; j < positions[i][1] - clearedBegin; j++)
 						output << " ";
 					output << "^";
 				}
@@ -241,4 +243,14 @@ bool isStaple(char symbol)
 bool isPairedStaples(char first, char second)
 {
 	return first == '(' && second == ')' || first == '[' && second == ']' || first == '{' && second == '}';
+}
+
+int deleteBeginSpaces(string& str)
+{
+	int begin = 0;
+	while (str[begin] == ' ' || str[begin] == '\t')
+		begin++;
+	str = str.substr(begin);
+
+	return begin;
 }

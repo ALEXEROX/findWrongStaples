@@ -26,3 +26,9 @@ bool isStaple(char symbol);
 * \return €вл€ютс€ ли символы парой скобок
 */
 bool isPairedStaples(char first, char second);
+
+/*! ”далить начальные пробелы и знаки табул€ции
+* param[in|out] str - обрабатываема€ строка
+* return количество удалЄнных знаков
+*/
+int deleteBeginSpaces(string& str);

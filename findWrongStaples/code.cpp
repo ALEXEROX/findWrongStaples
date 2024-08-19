@@ -15,7 +15,7 @@ int mai(int argc, char* argv[])
 	ifstream input;
 	input.open(inputFile);
 	ofstream output;
-	output.open(outputFile);
+	output.open(outputFile;
 
 	vector<string> code;
 	vector<vector<int>> positions;
