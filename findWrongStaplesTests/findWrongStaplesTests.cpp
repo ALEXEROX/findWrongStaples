@@ -117,7 +117,7 @@ namespace findWrongStaplesTests
 			Assert::AreEqual(exp_wrongStaples, wrongStaples);
 		}
 
-		TEST_METHOD(Monkey)
+		TEST_METHOD(MultiTest)
 		{
 			vector<string> code = { "{(})()([[]])([[)" };
 			vector<vector<int>> positions;
@@ -230,6 +230,126 @@ namespace findWrongStaplesTests
 				Assert::AreEqual(exp_positions[i][0], positions[i][0]);
 				Assert::AreEqual(exp_positions[i][1], positions[i][1]);
 			}
+		}
+	};
+
+	TEST_CLASS(FindWrongStaplesUnverifedZonesTests)
+	{
+
+	public:
+
+		TEST_METHOD(OnelineComment)
+		{
+			vector<string> code = { "#include <iostream>",
+			"",
+			"using namespace std;",
+			"",
+			"int main(int argc, char* argv[])",
+			"{",
+			"    cout << \"Hello world\" << endl; // ;)",
+			"",
+			"    return 0;",
+			"}" };
+
+			vector<vector<int>> positions;
+			int wrongStaples = findWrongStaples(code, positions);
+			int exp_wrongStaples = 0;
+			Assert::AreEqual(exp_wrongStaples, wrongStaples);
+		}
+
+		TEST_METHOD(MultilineComment)
+		{
+			vector<string> code = { "#include <iostream>",
+			"",
+			"using namespace std;",
+			"",
+			"int main(int argc, char* argv[])",
+			"{",
+			"    cout << \"Hello world\" << endl; // ;)",
+			"",
+			"    return 0;",
+			"}" };
+
+			vector<vector<int>> positions;
+			int wrongStaples = findWrongStaples(code, positions);
+			int exp_wrongStaples = 0;
+			Assert::AreEqual(exp_wrongStaples, wrongStaples);
+		}
+
+		TEST_METHOD(Char)
+		{
+			vector<string> code = { "#include <iostream>",
+			"",
+			"using namespace std;",
+			"",
+			"int main(int argc, char* argv[])",
+			"{",
+			"    cout << ']' << endl;",
+			"",
+			"    return 0;",
+			"}" };
+
+			vector<vector<int>> positions;
+			int wrongStaples = findWrongStaples(code, positions);
+			int exp_wrongStaples = 0;
+			Assert::AreEqual(exp_wrongStaples, wrongStaples);
+		}
+
+		TEST_METHOD(String)
+		{
+			vector<string> code = { "#include <iostream>",
+			"",
+			"using namespace std;",
+			"",
+			"int main(int argc, char* argv[])",
+			"{",
+			"    cout << \":}\" << endl; ",
+			"",
+			"    return 0;",
+			"}" };
+
+			vector<vector<int>> positions;
+			int wrongStaples = findWrongStaples(code, positions);
+			int exp_wrongStaples = 0;
+			Assert::AreEqual(exp_wrongStaples, wrongStaples);
+		}
+
+		TEST_METHOD(SingleQuotationMarkInChar)
+		{
+			vector<string> code = { "#include <iostream>",
+			"",
+			"using namespace std;",
+			"",
+			"int main(int argc, char* argv[])",
+			"{",
+			"    cout << ('\\\'') << endl;", // cout << '\'' << endl;
+			"",
+			"    return 0;",
+			"}" };
+
+			vector<vector<int>> positions;
+			int wrongStaples = findWrongStaples(code, positions);
+			int exp_wrongStaples = 0;
+			Assert::AreEqual(exp_wrongStaples, wrongStaples);
+		}
+
+		TEST_METHOD(DoubleQuotationMarkInString)
+		{
+			vector<string> code = { "#include <iostream>",
+			"",
+			"using namespace std;",
+			"",
+			"int main(int argc, char* argv[])",
+			"{",
+			"    cout << \"\\\" Hello world :) \" << endl;", // cout << "\" Hello world \"" << endl;
+			"",
+			"    return 0;",
+			"}" };
+
+			vector<vector<int>> positions;
+			int wrongStaples = findWrongStaples(code, positions);
+			int exp_wrongStaples = 0;
+			Assert::AreEqual(exp_wrongStaples, wrongStaples);
 		}
 	};
 }
