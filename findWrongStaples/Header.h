@@ -14,11 +14,12 @@ using namespace std;
 */
 int findWrongStaples(vector<string> &code, vector<vector<int>> &positions);
 
-/*! Определить, является ли символ скобкой ( '()', '[]', '{}' )
-* \param[in] symbol - проверяемый символ
-* \return является ли символ скобкой
+/*! Найти все вхождения подстрок в коде c++
+* \param[in] code - текст кода
+* \param[in] words - искомые подстроки
+* \param[out] positions - позиции (индекс строки и индекс символа) найденных вхождений
 */
-bool isStaple(char symbol);
+int findWordsInCode(vector<string>& code, vector<string> words, vector<vector<int>>& positions);
 
 /*! Определить, являются ли символы парой скобок
 * \param[in] first - первый символ

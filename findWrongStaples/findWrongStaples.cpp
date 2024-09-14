@@ -6,10 +6,8 @@ int main(int argc, char* argv[])
 	setlocale(LC_ALL, "rus");
 
 	// File names
-	/*string inputFile = argv[1];
-	string outputFile = argv[2];*/
-	string inputFile = "code.cpp";
-	string outputFile = "output.txt";
+	string inputFile = argv[1];
+	string outputFile = argv[2];
 
 	// File streams
 	ifstream input;
@@ -114,64 +112,11 @@ int main(int argc, char* argv[])
 
 int findWrongStaples(vector<string>& code, vector<vector<int>>& positions)
 {
+	// Now staples not found
 	positions.clear();
 	vector<vector<int>> staples;
-	bool inMultyLineComment = false,
-		inString = false;
 	
-	for (int line = 0; line < code.size(); line++)
-	{
-		inString = false;
-
-		for (int symbol = 0; symbol < code[line].size(); symbol++)
-		{
-			// Checking for unverified zone
-			if (symbol != code[line].size() - 1)
-			{
-				if (code[line][symbol] == '/')
-				{
-					if (code[line][symbol + 1] == '/')
-						break;
-					else if (code[line][symbol + 1] == '*')
-					{
-						inMultyLineComment = true;
-						symbol++;
-						continue;
-					}
-				}
-				else if (code[line][symbol] == '\'')
-				{
-					symbol += code[line][symbol + 1] == '\'' ? 1 : (code[line][symbol + 1] != '\\' ? 2 : 3);
-					continue;
-				}
-				else if (code[line][symbol] == '\"')
-				{
-					inString = !inString;
-					continue;
-				}
-				else if (code[line][symbol] == '\\' && code[line][symbol + 1] == '\"')
-				{
-					symbol++;
-					continue;
-				}
-				else if (code[line][symbol] == '*' && code[line][symbol + 1] == '/')
-				{
-					inMultyLineComment = false;
-					symbol++;
-					continue;
-				}
-			}
-
-			// Search staples
-			if (!inMultyLineComment && !inString)
-			{
-				if(isStaple(code[line][symbol]))
-				{
-					staples.push_back({ line, symbol });
-				}
-			}
-		}
-	}
+	findWordsInCode(code, { "(", "{", "[", ")", "}", "]" }, staples);
 	  
 	// Delete paired staples and add inner unpaired staples
 	int innerLength = 0;
@@ -235,9 +180,68 @@ int findWrongStaples(vector<string>& code, vector<vector<int>>& positions)
 	return positions.size();
 }
 
-bool isStaple(char symbol)
+int findWordsInCode(vector<string>& code, vector<string> words, vector<vector<int>>& positions)
 {
-	return symbol == '(' || symbol == '[' || symbol == '{' || symbol == ')' || symbol == ']' || symbol == '}';
+	bool inMultyLineComment = false,
+		inString = false;
+
+	for (int line = 0; line < code.size(); line++)
+	{
+		for (int symbol = 0; symbol < code[line].size(); symbol++)
+		{
+			// Checking for unverified zone
+			if (symbol != code[line].size() - 1)
+			{
+				if (code[line][symbol] == '/')
+				{
+					if (code[line][symbol + 1] == '/')
+						break;
+					else if (code[line][symbol + 1] == '*')
+					{
+						inMultyLineComment = true;
+						symbol++;
+						continue;
+					}
+				}
+				else if (code[line][symbol] == '\'')
+				{
+					symbol += code[line][symbol + 1] == '\'' ? 1 : (code[line][symbol + 1] != '\\' ? 2 : 3);
+					continue;
+				}
+				else if (code[line][symbol] == '\"')
+				{
+					inString = !inString;
+					continue;
+				}
+				else if (code[line][symbol] == '\\' && code[line][symbol + 1] == '\"')
+				{
+					symbol++;
+					continue;
+				}
+				else if (code[line][symbol] == '*' && code[line][symbol + 1] == '/')
+				{
+					inMultyLineComment = false;
+					symbol++;
+					continue;
+				}
+			}
+
+			// Search staples
+			if (!inMultyLineComment && !inString)
+			{
+				for (int i = 0; i < words.size(); i++)
+				{
+					if (code[line].substr(symbol, words[i].size()) == words[i])
+					{
+						positions.push_back({ line, symbol });
+						break;
+					}
+				}
+			}
+		}
+	}
+
+	return positions.size();
 }
 
 bool isPairedStaples(char first, char second)
