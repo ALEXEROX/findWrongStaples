@@ -2,14 +2,14 @@
 
 int main(int argc, char* argv[])
 {
-	// Russioan localization
+	// Русская локазлизация
 	setlocale(LC_ALL, "rus");
 
-	// File names
+	// Пути файлов
 	string inputFile = argv[1];
 	string outputFile = argv[2];
 
-	// File streams
+	// Открытие файлов
 	ifstream input;
 	input.open(inputFile);
 	ofstream output;
@@ -19,21 +19,21 @@ int main(int argc, char* argv[])
 	vector<vector<int>> positions;
 	bool mayWork = true;
 
-	// Check input file
+	// Проверка входного файла
 	if (inputFile.substr(inputFile.size() - 4, 4) != ".cpp")
 	{
 		output << "Входной файл имеет неподдерживаемый формат" << endl;
 		mayWork = false;
 	}
 
-	// Check output file
+	// Проверка выходного файла
 	if (mayWork && outputFile.substr(outputFile.size() - 4, 4) != ".txt")
 	{
 		output << "Выходной файл имеет неподдерживаемый формат" << endl;
 		mayWork = false;
 	}
 
-	// Input
+	// Записываем код с файла
 	int lines = 0;
 	if (mayWork)
 	{
@@ -41,6 +41,8 @@ int main(int argc, char* argv[])
 		while (getline(input, line) && lines++ <= 255)
 		{
 			code.push_back(line);
+
+			// Проверка количества символов в строке
 			if (line.size() > 1000)
 			{
 				output << "Количество символов в строке(-ах) превышено" << endl;
@@ -50,7 +52,7 @@ int main(int argc, char* argv[])
 		}
 	}
 
-	// Check for strings count
+	// Проверка количества строк
 	if (mayWork && lines > 255)
 	{
 		output << "Количество строк превышено" << endl;
@@ -59,10 +61,10 @@ int main(int argc, char* argv[])
 
 	if (mayWork)
 	{
-		// Execution
+		// Поиск неправильных скобок
 		int wrongStaples = findWrongStaples(code, positions);
 
-		// Output
+		// Вывод результат поиска в выходной файл
 		if (!wrongStaples)
 		{
 			output << "Проверка прошла успешно" << endl;
@@ -99,11 +101,11 @@ int main(int argc, char* argv[])
 		}
 	}
 
-	// Close files
+	// Закрытие файлов
 	input.close();
 	output.close();
 
-	// Open output file in Notepad or other default programm
+	// Открытие выходного файла в блокноте или другой программе по умолчанию
 	system(outputFile.c_str());
 
 	return 0;
@@ -112,58 +114,62 @@ int main(int argc, char* argv[])
 
 int findWrongStaples(vector<string>& code, vector<vector<int>>& positions)
 {
-	// Now staples not found
 	positions.clear();
 	vector<vector<int>> staples;
 	
-	findWordsInCode(code, { "(", "{", "[", ")", "}", "]" }, staples);
+	findWordsInCode(code, { "(", "{", "[", ")", "}", "]" }, staples); // Находим позиции скобок
 	  
-	// Delete paired staples and add inner unpaired staples
-	int innerLength = 0;
+	
+	int innerLength = 0; // Принимаем длину проверки за 0
+
+	// Пока длина проверки меньше количества скобок
 	while (innerLength < staples.size())
 	{
-		auto iter{ staples.begin() };
+		auto iter{ staples.begin() }; // Ставим итератор на первую позицию
 
+		// Пока количество скобок не равно нулю и итератор не достиг позиции последней скобки с вычетом длины проверки
 		while (staples.size() != 0 && iter != staples.end() - 1 - innerLength)
 		{
-			char currentSymbol = code[(*iter)[0]][(*iter)[1]];
-			char nextSymbol = code[(*(iter + innerLength + 1))[0]][(*(iter + innerLength + 1))[1]];
+			char currentSymbol = code[(*iter)[0]][(*iter)[1]]; // Позиция левой скобки равна позиции итератора
+			char nextSymbol = code[(*(iter + innerLength + 1))[0]][(*(iter + innerLength + 1))[1]]; // Позиция правой скобки равна сумме позиции итератора и длины проверки
 
+			// Если скобки являются парными
 			if (isPairedStaples(currentSymbol, nextSymbol))
 			{
+				// Если длина проверки не равна нулю
 				if (innerLength != 0)
 				{
-					for (auto innerIter = iter + 1; innerIter < iter + innerLength + 1; innerIter++)
-						positions.push_back(*innerIter);
+					for (auto innerIter = iter + 1; innerIter < iter + innerLength + 1; innerIter++) // Для каждой внутренней скобки
+						positions.push_back(*innerIter); // Записываем позицию неправильно расположенной скобки
 
-					staples.erase(iter, iter + 2 + innerLength);
-					innerLength = 0;
-					iter = staples.begin();
+					staples.erase(iter, iter + 2 + innerLength); // Удаляем проверяемые скобки и их содержимое
+					innerLength = 0; // Приравниваем длину проверки к нулю
+					iter = staples.begin(); //3.2.3.1.4	Ставим итератор на позицию первой скобки
 				}
-				else
+				else // Иначе
 				{
-					iter = staples.erase(iter, iter + 2);
+					iter = staples.erase(iter, iter + 2); // Удаляем две скобки и ставим итератор на следующую после второй скобки позицию
 
-					if (staples.size() != 0 && iter != staples.begin())
-						iter--;
+					if (staples.size() != 0 && iter != staples.begin())// Если количество скобок равно нулю и итератор не стоит на первой скобке
+						iter--; // Ставим итератор на предыдущую позицию
 				}
 			}
-			else
+			else // Иначе
 			{
-				iter++;
+				iter++; // Ставим итератор на следующую позицию
 			}
 		}
 
-		innerLength++;
+		innerLength++; // Увеличиваем длину проверки на 1
 	}
 
-	// Add remaining staples
+	// Записываем оставшиеся скобки в массив неправильно расположенных скобок
 	for (auto iter{ staples.begin() }; iter < staples.end(); iter++)
 	{
 		positions.push_back(*iter);
 	}
 
-	// Sorting
+	// Сортируем массив неправильных скобок по возрастанию их положения
 	for (int i = positions.size() - 1; i >= 2; i--)
 	{
 		for (int j = 0; j < i; j++)
@@ -177,7 +183,7 @@ int findWrongStaples(vector<string>& code, vector<vector<int>>& positions)
 		}
 	}
 
-	return positions.size();
+	return positions.size(); // Вернуть количество неправильно расположенных скобок
 }
 
 int findWordsInCode(vector<string>& code, vector<string> words, vector<vector<int>>& positions)
@@ -185,63 +191,69 @@ int findWordsInCode(vector<string>& code, vector<string> words, vector<vector<in
 	bool inMultyLineComment = false,
 		inString = false;
 
+	// Для каждой строки
 	for (int line = 0; line < code.size(); line++)
 	{
+		// Для каждого символа, кроме последнего
 		for (int symbol = 0; symbol < code[line].size(); symbol++)
 		{
-			// Checking for unverified zone
+			// Если символ не последний в строке
 			if (symbol != code[line].size() - 1)
 			{
+				// Если символ является косой чертой
 				if (code[line][symbol] == '/')
 				{
-					if (code[line][symbol + 1] == '/')
-						break;
-					else if (code[line][symbol + 1] == '*')
+					if (code[line][symbol + 1] == '/') // Если следующий символ является косой чертой
+						break; // Перейти на следующую строку
+					else if (code[line][symbol + 1] == '*') // Иначе если следующий символ является звёздочкой
 					{
-						inMultyLineComment = true;
-						symbol++;
+						inMultyLineComment = true; // Мы в многострочном комментарии
+						symbol++; // Переходим на два символа вперёд
 						continue;
 					}
 				}
-				else if (code[line][symbol] == '\'')
+				else if (code[line][symbol] == '\'') // Иначе если символ является единичкой кавычкой
 				{
+					// Если символ является кавычкой, переходим на два символа вперёд, нначе если следующий символ является обратной косой чертой, переходим на три символа вперёд, переходим на четыре символа вперёд
 					symbol += code[line][symbol + 1] == '\'' ? 1 : (code[line][symbol + 1] != '\\' ? 2 : 3);
 					continue;
 				}
-				else if (code[line][symbol] == '\"')
+				else if (code[line][symbol] == '\"') // Иначе если символ является двойной кавычкой
 				{
-					inString = !inString;
+					inString = !inString; // Статус нахождения в строке меняется на противоположный
+					continue; // Переходим на следующий символ
+				}
+				else if (code[line][symbol] == '\\' && code[line][symbol + 1] == '\"') // Иначе если символ является обратной косой чертой и следующий символ является двойной кавычкой
+				{
+					symbol++; // Переходим на два символа вперёд
 					continue;
 				}
-				else if (code[line][symbol] == '\\' && code[line][symbol + 1] == '\"')
+				else if (code[line][symbol] == '*' && code[line][symbol + 1] == '/') // Иначе если символ является звёздочкой и следующий символ является косой чертой
 				{
-					symbol++;
-					continue;
-				}
-				else if (code[line][symbol] == '*' && code[line][symbol + 1] == '/')
-				{
-					inMultyLineComment = false;
-					symbol++;
+					inMultyLineComment = false; // Мы не в многострочном комментарии
+					symbol++; // Переходим на два символа вперёд
 					continue;
 				}
 			}
 
-			// Search staples
+			// Если мы не в многострочном комментарии и не в строке
 			if (!inMultyLineComment && !inString)
 			{
+				// Для каждой искомой подстроки
 				for (int i = 0; i < words.size(); i++)
 				{
+					// Если подстрока кода длиной искомой подстроки равна искомой подстроке
 					if (code[line].substr(symbol, words[i].size()) == words[i])
 					{
-						positions.push_back({ line, symbol });
-						break;
+						positions.push_back({ line, symbol }); // Записываем позицию
+						break; // Прерываем процесс поиска подстроки
 					}
 				}
 			}
 		}
 	}
 
-	return positions.size();
+	return positions.size(); // Возвращаем количество вхождений
 }
 
 bool isPairedStaples(char first, char second)
