@@ -246,6 +246,7 @@ int findWordsInCode(vector<string>& code, vector<string> words, vector<vector<in
 					if (code[line].substr(symbol, words[i].size()) == words[i])
 					{
 						positions.push_back({ line, symbol }); // Записываем позицию
+						symbol += words[i].size() - 1; // Перескакиваем через слово
 						break; // Прерываем процесс поиска подстроки
 					}
 				}

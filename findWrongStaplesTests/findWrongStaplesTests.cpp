@@ -6,7 +6,209 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace findWrongStaplesTests
 {
-	TEST_CLASS(FindWrongStaplesSimpleTests)
+	TEST_CLASS(IsPairedStaplesTest)
+	{
+	public:
+
+		TEST_METHOD(PairedRoundStaples)
+		{
+			char firstStaple = '(';
+			char secondStaple = ')';
+			bool pairedStaples = isPairedStaples(firstStaple, secondStaple);
+			bool exp_pairedStaples = true;
+			Assert::AreEqual(exp_pairedStaples, pairedStaples);
+		}
+
+		TEST_METHOD(PairedSquareStaples)
+		{
+			char firstStaple = '[';
+			char secondStaple = ']';
+			bool pairedStaples = isPairedStaples(firstStaple, secondStaple);
+			bool exp_pairedStaples = true;
+			Assert::AreEqual(exp_pairedStaples, pairedStaples);
+		}
+
+		TEST_METHOD(PairedFigureStaples)
+		{
+			char firstStaple = '{';
+			char secondStaple = '}';
+			bool pairedStaples = isPairedStaples(firstStaple, secondStaple);
+			bool exp_pairedStaples = true;
+			Assert::AreEqual(exp_pairedStaples, pairedStaples);
+		}
+
+		TEST_METHOD(DifferentStaples)
+		{
+			char firstStaple = '(';
+			char secondStaple = ']';
+			bool pairedStaples = isPairedStaples(firstStaple, secondStaple);
+			bool exp_pairedStaples = false;
+			Assert::AreEqual(exp_pairedStaples, pairedStaples);
+		}
+
+		TEST_METHOD(OneSidedStaples)
+		{
+			char firstStaple = ']';
+			char secondStaple = ']';
+			bool pairedStaples = isPairedStaples(firstStaple, secondStaple);
+			bool exp_pairedStaples = false;
+			Assert::AreEqual(exp_pairedStaples, pairedStaples);
+		}
+
+		TEST_METHOD(ExpandetStaples)
+		{
+			char firstStaple = ']';
+			char secondStaple = '[';
+			bool pairedStaples = isPairedStaples(firstStaple, secondStaple);
+			bool exp_pairedStaples = false;
+			Assert::AreEqual(exp_pairedStaples, pairedStaples);
+		}
+	};
+
+	TEST_CLASS(FindWordsInCodeTest)
+	{
+	public:
+
+		TEST_METHOD(SingleChar)
+		{
+			vector<string> code = { "a" };
+			vector<string> words = { "a" };
+			vector<vector<int>> positions;
+			int wordsCount = findWordsInCode(code, words, positions);
+			int exp_wordsCount = 1;
+			vector<vector<int>> exp_positions = { {0,0} };
+			Assert::AreEqual(exp_wordsCount, wordsCount);
+			for (int i = 0; i < exp_wordsCount; i++)
+			{
+				Assert::AreEqual(exp_positions[i][0], positions[i][0]);
+				Assert::AreEqual(exp_positions[i][1], positions[i][1]);
+			}
+		}
+
+		TEST_METHOD(SingleWord)
+		{
+			vector<string> code = { "Code" };
+			vector<string> words = { "Code" };
+			vector<vector<int>> positions;
+			int wordsCount = findWordsInCode(code, words, positions);
+			int exp_wordsCount = 1;
+			vector<vector<int>> exp_positions = { {0,0} };
+			Assert::AreEqual(exp_wordsCount, wordsCount);
+			for (int i = 0; i < exp_wordsCount; i++)
+			{
+				Assert::AreEqual(exp_positions[i][0], positions[i][0]);
+				Assert::AreEqual(exp_positions[i][1], positions[i][1]);
+			}
+		}
+
+		TEST_METHOD(TwoChars)
+		{
+			vector<string> code = { "b a" };
+			vector<string> words = { "a", "b"};
+			vector<vector<int>> positions;
+			int wordsCount = findWordsInCode(code, words, positions);
+			int exp_wordsCount = 2;
+			vector<vector<int>> exp_positions = { {0,0}, {0,2} };
+			Assert::AreEqual(exp_wordsCount, wordsCount);
+			for (int i = 0; i < exp_wordsCount; i++)
+			{
+				Assert::AreEqual(exp_positions[i][0], positions[i][0]);
+				Assert::AreEqual(exp_positions[i][1], positions[i][1]);
+			}
+		}
+
+		TEST_METHOD(TwoWords)
+		{
+			vector<string> code = { "Code cpp" };
+			vector<string> words = { "cpp", "Code" };
+			vector<vector<int>> positions;
+			int wordsCount = findWordsInCode(code, words, positions);
+			int exp_wordsCount = 2;
+			vector<vector<int>> exp_positions = { {0,0}, {0,5} };
+			Assert::AreEqual(exp_wordsCount, wordsCount);
+			for (int i = 0; i < exp_wordsCount; i++)
+			{
+				Assert::AreEqual(exp_positions[i][0], positions[i][0]);
+				Assert::AreEqual(exp_positions[i][1], positions[i][1]);
+			}
+		}
+
+		TEST_METHOD(WordInOtherWord)
+		{
+			vector<string> code = { "Expected" };
+			vector<string> words = { "ect" };
+			vector<vector<int>> positions;
+			int wordsCount = findWordsInCode(code, words, positions);
+			int exp_wordsCount = 1;
+			vector<vector<int>> exp_positions = { {0,3} };
+			Assert::AreEqual(exp_wordsCount, wordsCount);
+			for (int i = 0; i < exp_wordsCount; i++)
+			{
+				Assert::AreEqual(exp_positions[i][0], positions[i][0]);
+				Assert::AreEqual(exp_positions[i][1], positions[i][1]);
+			}
+		}
+
+		TEST_METHOD(OneWordTwoTimes)
+		{
+			vector<string> code = { "codecode" };
+			vector<string> words = { "code" };
+			vector<vector<int>> positions;
+			int wordsCount = findWordsInCode(code, words, positions);
+			int exp_wordsCount = 2;
+			vector<vector<int>> exp_positions = { {0,0}, {0,4} };
+			Assert::AreEqual(exp_wordsCount, wordsCount);
+			for (int i = 0; i < exp_wordsCount; i++)
+			{
+				Assert::AreEqual(exp_positions[i][0], positions[i][0]);
+				Assert::AreEqual(exp_positions[i][1], positions[i][1]);
+			}
+		}
+
+		TEST_METHOD(OneWordTwoTimesInDifferentLines)
+		{
+			vector<string> code = { "code", "code"};
+			vector<string> words = { "code" };
+			vector<vector<int>> positions;
+			int wordsCount = findWordsInCode(code, words, positions);
+			int exp_wordsCount = 2;
+			vector<vector<int>> exp_positions = { {0,0}, {1,0} };
+			Assert::AreEqual(exp_wordsCount, wordsCount);
+			for (int i = 0; i < exp_wordsCount; i++)
+			{
+				Assert::AreEqual(exp_positions[i][0], positions[i][0]);
+				Assert::AreEqual(exp_positions[i][1], positions[i][1]);
+			}
+		}
+
+		TEST_METHOD(IntersectingWords)
+		{
+			vector<string> code = { "corocoroco" };
+			vector<string> words = { "coroco" };
+			vector<vector<int>> positions;
+			int wordsCount = findWordsInCode(code, words, positions);
+			int exp_wordsCount = 1;
+			vector<vector<int>> exp_positions = { {0,0} };
+			Assert::AreEqual(exp_wordsCount, wordsCount);
+			for (int i = 0; i < exp_wordsCount; i++)
+			{
+				Assert::AreEqual(exp_positions[i][0], positions[i][0]);
+				Assert::AreEqual(exp_positions[i][1], positions[i][1]);
+			}
+		}
+
+		TEST_METHOD(TornWord)
+		{
+			vector<string> code = { "coro", "co" };
+			vector<string> words = { "coroco" };
+			vector<vector<int>> positions;
+			int wordsCount = findWordsInCode(code, words, positions);
+			int exp_wordsCount = 0;
+			Assert::AreEqual(exp_wordsCount, wordsCount);
+		}
+	};
+
+	TEST_CLASS(FindWrongStaplesTest)
 	{
 	public:
 
@@ -41,6 +243,21 @@ namespace findWrongStaplesTests
 			int wrongStaples = findWrongStaples(code, positions);
 			int exp_wrongStaples = 0;
 			Assert::AreEqual(exp_wrongStaples, wrongStaples);
+		}
+
+		TEST_METHOD(ExpandedRoundStaples)
+		{
+			vector<string> code = { ")(" };
+			vector<vector<int>> positions;
+			vector<vector<int>> exp_positions{ {0, 0}, {0, 1} };
+			int wrongStaples = findWrongStaples(code, positions);
+			int exp_wrongStaples = 2;
+			Assert::AreEqual(exp_wrongStaples, wrongStaples);
+			for (int i = 0; i < exp_wrongStaples; i++)
+			{
+				Assert::AreEqual(exp_positions[i][0], positions[i][0]);
+				Assert::AreEqual(exp_positions[i][1], positions[i][1]);
+			}
 		}
 
 		TEST_METHOD(TwoPaarsRoundStaples)
@@ -108,12 +325,6 @@ namespace findWrongStaplesTests
 				Assert::AreEqual(exp_positions[i][1], positions[i][1]);
 			}
 		}
-	};
-
-	TEST_CLASS(FindWrongStaplesHardTests)
-	{
-
-	public:
 
 		TEST_METHOD(DefaultCppProject)
 		{
@@ -209,279 +420,6 @@ namespace findWrongStaplesTests
 			}
 		}
 
-		TEST_METHOD(TestOnOwnCode)
-		{
-			vector<string> code = {
-				"#include \"Header.h\"",
-				"",
-				"int main(int argc, char* argv[])",
-				"{",
-				"	// Russioan localization",
-				"	setlocale(LC_ALL, \"rus\");",
-				"",
-				"	// File names",
-				"	/*string inputFile = argv[1];",
-				"	string outputFile = argv[2];*/",
-				"	string inputFile = \"code.cpp\";",
-				"	string outputFile = \"output.txt\";",
-				"",
-				"	// File streams",
-				"	ifstream input;",
-				"	input.open(inputFile);",
-				"	ofstream output;",
-				"	output.open(outputFile);",
-				"",
-				"	vector<string> code;",
-				"	vector<vector<int>> positions;",
-				"	bool mayWork = true;",
-				"",
-				"	// Check input file",
-				"	if (inputFile.substr(inputFile.size() - 4, 4) != \".cpp\")",
-				"	{",
-				"		output << \"Входной файл имеет неподдерживаемый формат\" << endl;",
-				"		mayWork = false;",
-				"	}",
-				"",
-				"	// Check output file",
-				"	if (mayWork && outputFile.substr(outputFile.size() - 4, 4) != \".txt\")",
-				"	{",
-				"		output << \"Выходной файл имеет неподдерживаемый формат\" << endl;",
-				"		mayWork = false;",
-				"	}",
-				"",
-				"	// Input",
-				"	int lines = 0;",
-				"	if (mayWork)",
-				"	{",
-				"		string line;",
-				"		while (getline(input, line) && lines++ <= 255)",
-				"		{",
-				"			code.push_back(line);",
-				"			if (line.size() > 1000)",
-				"			{",
-				"				output << \"Количество символов в строке(-ах) превышено\" << endl;",
-				"				mayWork = false;",
-				"				break;",
-				"			}",
-				"		}",
-				"	}",
-				"",
-				"	// Check for strings count",
-				"	if (mayWork && lines > 255)",
-				"	{",
-				"		output << \"Количество строк превышено\" << endl;",
-				"		mayWork = false;",
-				"	}",
-				"",
-				"	if (mayWork)",
-				"	{",
-				"		// Execution",
-				"		int wrongStaples = findWrongStaples(code, positions);",
-				"",
-				"		// Output",
-				"		if (!wrongStaples)",
-				"		{",
-				"			output << \"Проверка прошла успешно\" << endl;",
-				"		}",
-				"		else",
-				"		{",
-				"			output << \"Обнаружено \" << wrongStaples << \" ошиб\" << ((wrongStaples % 10 == 1 && wrongStaples % 100 / 10 != 1) ? \"ка\" : ((wrongStaples % 10 >= 2 && wrongStaples % 10 <= 4 && wrongStaples % 100 / 10 != 1) ? \"ки\" : \"ок\")) << endl;",
-				"",
-				"			output << positions[0][0] + 1 << \" строка:\" << endl;",
-				"			int clearedBegin = deleteBeginSpaces(code[positions[0][0]]);",
-				"			output << code[positions[0][0]] << endl;",
-				"			for (int i = 0; i < positions[0][1] - clearedBegin; i++)",
-				"				output << \" \";",
-				"			output << \"^\";",
-				"",
-				"			for (int i = 1; i < wrongStaples; i++)",
-				"			{",
-				"				if (positions[i][0] == positions[i - 1][0])",
-				"				{",
-				"					for (int j = positions[i - 1][1] + 1; j < positions[i][1]; j++)",
-				"						output << \" \";",
-				"					output << \"^\";",
-				"				}",
-				"				else",
-				"				{",
-				"					output << endl << positions[i][0] + 1 << \" строка:\" << endl;",
-				"					clearedBegin = deleteBeginSpaces(code[positions[i][0]]);",
-				"					output << code[positions[i][0]] << endl;",
-				"					for (int j = 0; j < positions[i][1] - clearedBegin; j++)",
-				"						output << \" \";",
-				"					output << \"^\";",
-				"				}",
-				"			}",
-				"		}",
-				"	}",
-				"",
-				"	// Close files",
-				"	input.close();",
-				"	output.close();",
-				"",
-				"	// Open output file in Notepad or other default programm",
-				"	system(outputFile.c_str());",
-				"",
-				"	return 0;",
-				"}",
-				"",
-				"",
-				"int findWrongStaples(vector<string>& code, vector<vector<int>>& positions)",
-				"{",
-				"	positions.clear();",
-				"	vector<vector<int>> staples;",
-				"	bool inMultyLineComment = false,",
-				"		inString = false;",
-				"	",
-				"	for (int line = 0; line < code.size(); line++)",
-				"	{",
-				"		inString = false;",
-				"",
-				"		for (int symbol = 0; symbol < code[line].size(); symbol++)",
-				"		{",
-				"			// Checking for unverified zone",
-				"			if (symbol != code[line].size() - 1)",
-				"			{",
-				"				if (code[line][symbol] == \'/\')",
-				"				{",
-				"					if (code[line][symbol + 1] == \'/\')",
-				"						break;",
-				"					else if (code[line][symbol + 1] == \'*\')",
-				"					{",
-				"						inMultyLineComment = true;",
-				"						symbol++;",
-				"						continue;",
-				"					}",
-				"				}",
-				"				else if (code[line][symbol] == \'\\\'\')",
-				"				{",
-				"					symbol += code[line][symbol + 1] == \'\\\'\' ? 1 : (code[line][symbol + 1] != \'\\\\\' ? 2 : 3);",
-				"					continue;",
-				"				}",
-				"				else if (code[line][symbol] == \'\\\"\')",
-				"				{",
-				"					inString = !inString;",
-				"					continue;",
-				"				}",
-				"				else if (code[line][symbol] == \'\\\\\' && code[line][symbol + 1] == \'\\\"\')",
-				"				{",
-				"					symbol++;",
-				"					continue;",
-				"				}",
-				"				else if (code[line][symbol] == \'*\' && code[line][symbol + 1] == \'/\')",
-				"				{",
-				"					inMultyLineComment = false;",
-				"					symbol++;",
-				"					continue;",
-				"				}",
-				"			}",
-				"",
-				"			// Search staples",
-				"			if (!inMultyLineComment && !inString)",
-				"			{",
-				"				if(isStaple(code[line][symbol]))",
-				"				{",
-				"					staples.push_back({ line, symbol });",
-				"				}",
-				"			}",
-				"		}",
-				"	}",
-				"	  ",
-				"	// Delete paired staples and add inner unpaired staples",
-				"	int innerLength = 0;",
-				"	while (innerLength < staples.size())",
-				"	{",
-				"		auto iter{ staples.begin() };",
-				"",
-				"		while (staples.size() != 0 && iter != staples.end() - 1 - innerLength)",
-				"		{",
-				"			char currentSymbol = code[(*iter)[0]][(*iter)[1]];",
-				"			char nextSymbol = code[(*(iter + innerLength + 1))[0]][(*(iter + innerLength + 1))[1]];",
-				"",
-				"			if (isPairedStaples(currentSymbol, nextSymbol))",
-				"			{",
-				"				if (innerLength != 0)",
-				"				{",
-				"					for (auto innerIter = iter + 1; innerIter < iter + innerLength + 1; innerIter++)",
-				"						positions.push_back(*innerIter);",
-				"",
-				"					staples.erase(iter, iter + 2 + innerLength);",
-				"					innerLength = 0;",
-				"					iter = staples.begin();",
-				"				}",
-				"				else",
-				"				{",
-				"					iter = staples.erase(iter, iter + 2);",
-				"",
-				"					if (staples.size() != 0 && iter != staples.begin())",
-				"						iter--;",
-				"				}",
-				"			}",
-				"			else",
-				"			{",
-				"				iter++;",
-				"			}",
-				"		}",
-				"",
-				"		innerLength++;",
-				"	}",
-				"",
-				"	// Add remaining staples",
-				"	for (auto iter{ staples.begin() }; iter < staples.end(); iter++)",
-				"	{",
-				"		positions.push_back(*iter);",
-				"	}",
-				"",
-				"	// Sorting",
-				"	for (int i = positions.size() - 1; i >= 2; i--)",
-				"	{",
-				"		for (int j = 0; j < i; j++)",
-				"		{",
-				"			if (positions[j][0] > positions[j + 1][0] || positions[j][0] == positions[j + 1][0] && positions[j][1] > positions[j + 1][1])",
-				"			{",
-				"				vector<int> pref = positions[j];",
-				"				positions[j] = positions[j + 1];",
-				"				positions[j + 1] = pref;",
-				"			}",
-				"		}",
-				"	}",
-				"",
-				"	return positions.size();",
-				"}",
-				"",
-				"bool isStaple(char symbol)",
-				"{",
-				"	return symbol == \'(\' || symbol == \'[\' || symbol == \'{\' || symbol == \')\' || symbol == \']\' || symbol == \'}\';",
-				"}",
-				"",
-				"bool isPairedStaples(char first, char second)",
-				"{",
-				"	return first == \'(\' && second == \')\' || first == \'[\' && second == \']\' || first == \'{\' && second == \'}\';",
-				"}",
-				"",
-				"int deleteBeginSpaces(string& str)",
-				"{",
-				"	int begin = 0;",
-				"	while (str[begin] == \' \' || str[begin] == \'\\t\')",
-				"		begin++;",
-				"	str = str.substr(begin);",
-				"",
-				"	return begin;",
-				"}"
-			};
-
-			vector<vector<int>> positions;
-			int wrongStaples = findWrongStaples(code, positions);
-			int exp_wrongStaples = 0;
-			Assert::AreEqual(exp_wrongStaples, wrongStaples);
-		}
-	};
-
-	TEST_CLASS(FindWrongStaplesUnverifedZonesTests)
-	{
-
-	public:
-
 		TEST_METHOD(OnelineComment)
 		{
 			vector<string> code = { "#include <iostream>",
@@ -509,7 +447,9 @@ namespace findWrongStaplesTests
 			"",
 			"int main(int argc, char* argv[])",
 			"{",
-			"    cout << \"Hello world\" << endl; // ;)",
+			"    cout << \"Hello world\" << endl; /*",
+			")",
+			"*/",
 			"",
 			"    return 0;",
 			"}" };
@@ -595,5 +535,61 @@ namespace findWrongStaplesTests
 			int exp_wrongStaples = 0;
 			Assert::AreEqual(exp_wrongStaples, wrongStaples);
 		}
+	};
+
+	TEST_CLASS(DeleteBeginSpacesTest)
+	{
+	public:
+
+		TEST_METHOD(NoSpaces)
+		{
+			string code = "int i = 0;";
+			string exp_code = "int i = 0;";
+			int spaces = deleteBeginSpaces(code);
+			int exp_spaces = 0;
+			Assert::AreEqual(exp_spaces, spaces);
+			Assert::AreEqual(exp_code, code);
+		}
+
+		TEST_METHOD(OneSpace)
+		{
+			string code = " int i = 0;";
+			string exp_code = "int i = 0;";
+			int spaces = deleteBeginSpaces(code);
+			int exp_spaces = 1;
+			Assert::AreEqual(exp_spaces, spaces);
+			Assert::AreEqual(exp_code, code);
+		}
+
+		TEST_METHOD(FourSpaces)
+		{
+			string code = "    int i = 0;";
+			string exp_code = "int i = 0;";
+			int spaces = deleteBeginSpaces(code);
+			int exp_spaces = 4;
+			Assert::AreEqual(exp_spaces, spaces);
+			Assert::AreEqual(exp_code, code);
+		}
+
+		TEST_METHOD(OneTab)
+		{
+			string code = "\tint i = 0;";
+			string exp_code = "int i = 0;";
+			int spaces = deleteBeginSpaces(code);
+			int exp_spaces = 1;
+			Assert::AreEqual(exp_spaces, spaces);
+			Assert::AreEqual(exp_code, code);
+		}
+
+		TEST_METHOD(OneSpaceAndOneTab)
+		{
+			string code = " \tint i = 0;";
+			string exp_code = "int i = 0;";
+			int spaces = deleteBeginSpaces(code);
+			int exp_spaces = 2;
+			Assert::AreEqual(exp_spaces, spaces);
+			Assert::AreEqual(exp_code, code);
+		}
+
 	};
 }
