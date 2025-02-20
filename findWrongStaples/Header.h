@@ -10,7 +10,7 @@ using namespace std;
 /*! Поиск неправильно расположенных скобок в коде c++
 * \param[in] code - текст кода
 * \param[out] positions - позиции (индексы строк и символов текста) найденных скобок
-* \return положение неправильно расположенных скобок
+* \return количество неправильно расположенных скобок
 */
 int findWrongStaples(vector<string> &code, vector<vector<int>> &positions);
 
