@@ -4,98 +4,112 @@ int main(int argc, char* argv[])
 {
 
 	// Пути файлов
-	string inputFile = "code.cpp";//argv[1];
-	string outputFile = "output.txt";//argv[2];
+	string inputFile = argv[1];
+	string outputFile = argv[2];
+
+	wifstream input;
+	wofstream output;
 
 	// Открытие файлов
-	wifstream input(inputFile, ios::in);
-	wofstream output(outputFile, ios::out);
+	try
+	{
+		input.open(inputFile, ios::in);
+	}
+	catch(const char* error_message)
+	{
+		cout << "Неверно указан входной файл. Возможно, файл не существует" << endl;
+		return 0;
+	}
 
+	try
+	{
+		output.open(outputFile, ios::out);
+	}
+	catch (const char* error_message)
+	{
+		cout << "Неверно указан выходной файл. Возможно, файл уже существует или имеет ограниченые права доступа." << endl;
+		return 0;
+	}
+
+	//Лкалзация
 	input.imbue(locale("en_US.UTF-8"));
 	output.imbue(locale("en_US.UTF-8"));
 
 	vector<wstring> code;
 	vector<vector<int>> positions;
-	bool mayWork = true;
 
 	// Проверка входного файла
 	if (inputFile.substr(inputFile.size() - 4, 4) != ".cpp")
 	{
-		output << L"Входной файл имеет неподдерживаемый формат" << endl;
-		mayWork = false;
+		cout << "Входной файл имеет неподдерживаемый формат" << endl;
+		return 0;
 	}
 
 	// Проверка выходного файла
-	if (mayWork && outputFile.substr(outputFile.size() - 4, 4) != ".txt")
+	if (outputFile.substr(outputFile.size() - 4, 4) != ".txt")
 	{
-		output << L"Выходной файл имеет неподдерживаемый формат" << endl;
-		mayWork = false;
+		cout << "Выходной файл имеет неподдерживаемый формат" << endl;
+		return 0;
 	}
 
 	// Записываем код с файла
 	int lines = 0;
-	if (mayWork)
+	wstring line;
+	while (getline(input, line) && lines++ <= 255)
 	{
-		wstring line;
-		while (getline(input, line) && lines++ <= 255)
-		{
-			code.push_back(line);
+		code.push_back(line);
 
-			// Проверка количества симво"ов в строке
- 			if (line.size() > 1000)
-			{
-				output << L"Количество символов в строке(-ах) превышено" << endl;
-				mayWork = false;
-				break;
-			}
+		// Проверка количества симво"ов в строке
+ 		if (line.size() > 1000)
+		{
+			cout << "Количество символов в строке(-ах) превышено" << endl;
+			return 0;
 		}
 	}
 
 	// Проверка количества строк
-	if (mayWork && lines > 255)
+	if (lines > 255)
 	{
-		output << L"Количество строк превышено" << endl;
-		mayWork = false;
+		cout << "Количество строк превышено" << endl;
+
+		return 0;
 	}
 
-	if (mayWork)
+	// Поиск неправильных скобок
+	int wrongStaples = findWrongStaples(code, positions);
+
+	// Вывод результат поиска в выходной файл
+	if (!wrongStaples)
 	{
-		// Поиск неправильных скобок
-		int wrongStaples = findWrongStaples(code, positions);
+		output << L"Проврка прошла успешно" << endl;
+	}
+	else
+	{
+		output << L"Обнаружено " << wrongStaples << L" ошиб" << ((wrongStaples % 10 == 1 && wrongStaples % 100 / 10 != 1) ? L"ка" : ((wrongStaples % 10 >= 2 && wrongStaples % 10 <= 4 && wrongStaples % 100 / 10 != 1) ? L"ки" : L"ок")) << endl;
 
-		// Вывод результат поиска в выходной файл
-		if (!wrongStaples)
+		output << positions[0][0] + 1 << L" строка:" << endl;
+		int clearedBegin = deleteBeginSpaces(code[positions[0][0]]);
+		output << code[positions[0][0]] << endl;
+		for (int i = 0; i < positions[0][1] - clearedBegin; i++)
+			output << L" ";
+		output << L"^";
+
+		for (int i = 1; i < wrongStaples; i++)
 		{
-			output << L"Проврка прошла успешно" << endl;
-		}
-		else
-		{
-			output << L"Обнаружено " << wrongStaples << L" ошиб" << ((wrongStaples % 10 == 1 && wrongStaples % 100 / 10 != 1) ? L"ка" : ((wrongStaples % 10 >= 2 && wrongStaples % 10 <= 4 && wrongStaples % 100 / 10 != 1) ? L"ки" : L"ок")) << endl;
-
-			output << positions[0][0] + 1 << L" строка:" << endl;
-			int clearedBegin = deleteBeginSpaces(code[positions[0][0]]);
-			output << code[positions[0][0]] << endl;
-			for (int i = 0; i < positions[0][1] - clearedBegin; i++)
-				output << L" ";
-			output << L"^";
-
-			for (int i = 1; i < wrongStaples; i++)
+			if (positions[i][0] == positions[i - 1][0])
 			{
-				if (positions[i][0] == positions[i - 1][0])
-				{
-					for (int j = positions[i - 1][1] + 1; j < positions[i][1]; j++)
-						output << L" ";
-					output << L"^";
-				}
-				else
-				{
-					output << endl << positions[i][0] + 1 << L" строка:" << endl;
-					clearedBegin = deleteBeginSpaces(code[positions[i][0]]);
-					output << code[positions[i][0]] << endl;
-					for (int j = 0; j < positions[i][1] - clearedBegin; j++)
-						output << L" ";
-					output << L"^";
-				}
+				for (int j = positions[i - 1][1] + 1; j < positions[i][1]; j++)
+					output << L" ";
+				output << L"^";
+			}
+			else
+			{
+				output << endl << positions[i][0] + 1 << L" строка:" << endl;
+				clearedBegin = deleteBeginSpaces(code[positions[i][0]]);
+				output << code[positions[i][0]] << endl;
+				for (int j = 0; j < positions[i][1] - clearedBegin; j++)
+					output << L" ";
+				output << L"^";
 			}
 		}
 	}
