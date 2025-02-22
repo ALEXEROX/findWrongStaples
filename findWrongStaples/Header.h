@@ -1,6 +1,4 @@
-﻿#pragma once
-#pragma warning(disable:4096)
-#include <iostream>
+﻿#include <iostream>
 #include <fstream>
 #include <string>
 #include <vector>
@@ -12,7 +10,7 @@ using namespace std;
 * \param[out] positions - позиции (индексы строк и символов текста) найденных скобок
 * \return количество неправильно расположенных скобок
 */
-int findWrongStaples(vector<string> &code, vector<vector<int>> &positions);
+int findWrongStaples(vector<wstring> &code, vector<vector<int>> &positions);
 
 /*! Поиск слов в коде c++
 * \param[in] code - текст кода
@@ -20,7 +18,7 @@ int findWrongStaples(vector<string> &code, vector<vector<int>> &positions);
 * \param[out] positions - позиции (индексы строк и символов теста) найденных слов
 * \return количество найденных слов
 */
-int findWordsInCode(vector<string>& code, vector<string> words, vector<vector<int>>& positions);
+int findWordsInCode(vector<wstring>& code, vector<wstring> words, vector<vector<int>>& positions);
 
 /*! Проверка, являются ли скобки парными
 * \param[in] first - первая скобка
@@ -33,4 +31,4 @@ bool isPairedStaples(char first, char second);
 * param[in|out] str - обрабатываемый текст
 * return количество удалённых пробелов и знаков табуляции
 */
-int deleteBeginSpaces(string& str);
+int deleteBeginSpaces(wstring& str);

@@ -2,34 +2,33 @@
 
 int main(int argc, char* argv[])
 {
-	// Русская локазлизация
-	setlocale(LC_ALL, "rus");
 
 	// Пути файлов
-	string inputFile = argv[1];
-	string outputFile = argv[2];
+	string inputFile = "code.cpp";//argv[1];
+	string outputFile = "output.txt";//argv[2];
 
 	// Открытие файлов
-	ifstream input;
-	input.open(inputFile);
-	ofstream output;
-	output.open(outputFile);
+	wifstream input(inputFile, ios::in);
+	wofstream output(outputFile, ios::out);
 
-	vector<string> code;
+	input.imbue(locale("en_US.UTF-8"));
+	output.imbue(locale("en_US.UTF-8"));
+
+	vector<wstring> code;
 	vector<vector<int>> positions;
 	bool mayWork = true;
 
 	// Проверка входного файла
 	if (inputFile.substr(inputFile.size() - 4, 4) != ".cpp")
 	{
-		output << "Входной файл имеет неподдерживаемый формат" << endl;
+		output << L"Входной файл имеет неподдерживаемый формат" << endl;
 		mayWork = false;
 	}
 
 	// Проверка выходного файла
 	if (mayWork && outputFile.substr(outputFile.size() - 4, 4) != ".txt")
 	{
-		output << "Выходной файл имеет неподдерживаемый формат" << endl;
+		output << L"Выходной файл имеет неподдерживаемый формат" << endl;
 		mayWork = false;
 	}
 
@@ -37,15 +36,15 @@ int main(int argc, char* argv[])
 	int lines = 0;
 	if (mayWork)
 	{
-		string line;
+		wstring line;
 		while (getline(input, line) && lines++ <= 255)
 		{
 			code.push_back(line);
 
-			// Проверка количества символов в строке
-			if (line.size() > 1000)
+			// Проверка количества симво"ов в строке
+ 			if (line.size() > 1000)
 			{
-				output << "Количество символов в строке(-ах) превышено" << endl;
+				output << L"Количество символов в строке(-ах) превышено" << endl;
 				mayWork = false;
 				break;
 			}
@@ -55,7 +54,7 @@ int main(int argc, char* argv[])
 	// Проверка количества строк
 	if (mayWork && lines > 255)
 	{
-		output << "Количество строк превышено" << endl;
+		output << L"Количество строк превышено" << endl;
 		mayWork = false;
 	}
 
@@ -67,35 +66,35 @@ int main(int argc, char* argv[])
 		// Вывод результат поиска в выходной файл
 		if (!wrongStaples)
 		{
-			output << "Проверка прошла успешно" << endl;
+			output << L"Проврка прошла успешно" << endl;
 		}
 		else
 		{
-			output << "Обнаружено " << wrongStaples << " ошиб" << ((wrongStaples % 10 == 1 && wrongStaples % 100 / 10 != 1) ? "ка" : ((wrongStaples % 10 >= 2 && wrongStaples % 10 <= 4 && wrongStaples % 100 / 10 != 1) ? "ки" : "ок")) << endl;
+			output << L"Обнаружено " << wrongStaples << L" ошиб" << ((wrongStaples % 10 == 1 && wrongStaples % 100 / 10 != 1) ? L"ка" : ((wrongStaples % 10 >= 2 && wrongStaples % 10 <= 4 && wrongStaples % 100 / 10 != 1) ? L"ки" : L"ок")) << endl;
 
-			output << positions[0][0] + 1 << " строка:" << endl;
+			output << positions[0][0] + 1 << L" строка:" << endl;
 			int clearedBegin = deleteBeginSpaces(code[positions[0][0]]);
 			output << code[positions[0][0]] << endl;
 			for (int i = 0; i < positions[0][1] - clearedBegin; i++)
-				output << " ";
-			output << "^";
+				output << L" ";
+			output << L"^";
 
 			for (int i = 1; i < wrongStaples; i++)
 			{
 				if (positions[i][0] == positions[i - 1][0])
 				{
 					for (int j = positions[i - 1][1] + 1; j < positions[i][1]; j++)
-						output << " ";
-					output << "^";
+						output << L" ";
+					output << L"^";
 				}
 				else
 				{
-					output << endl << positions[i][0] + 1 << " строка:" << endl;
+					output << endl << positions[i][0] + 1 << L" строка:" << endl;
 					clearedBegin = deleteBeginSpaces(code[positions[i][0]]);
 					output << code[positions[i][0]] << endl;
 					for (int j = 0; j < positions[i][1] - clearedBegin; j++)
-						output << " ";
-					output << "^";
+						output << L" ";
+					output << L"^";
 				}
 			}
 		}
@@ -112,12 +111,12 @@ int main(int argc, char* argv[])
 }
 
 
-int findWrongStaples(vector<string>& code, vector<vector<int>>& positions)
+int findWrongStaples(vector<wstring>& code, vector<vector<int>>& positions)
 {
 	positions.clear();
 	vector<vector<int>> staples;
 	
-	findWordsInCode(code, { "(", "{", "[", ")", "}", "]" }, staples); // Находим позиции скобок
+	findWordsInCode(code, { L"(", L"{", L"[", L")", L"}", L"]" }, staples); // Находим позиции скобок
 	  
 	
 	int innerLength = 0; // Принимаем длину проверки за 0
@@ -186,7 +185,7 @@ int findWrongStaples(vector<string>& code, vector<vector<int>>& positions)
 	return positions.size(); // Вернуть количество неправильно расположенных скобок
 }
 
-int findWordsInCode(vector<string>& code, vector<string> words, vector<vector<int>>& positions)
+int findWordsInCode(vector<wstring>& code, vector<wstring> words, vector<vector<int>>& positions)
 {
 	bool inMultyLineComment = false,
 		inString = false;
@@ -262,7 +261,7 @@ bool isPairedStaples(char first, char second)
 	return first == '(' && second == ')' || first == '[' && second == ']' || first == '{' && second == '}';
 }
 
-int deleteBeginSpaces(string& str)
+int deleteBeginSpaces(wstring& str)
 {
 	int begin = 0;
 	while (str[begin] == ' ' || str[begin] == '\t')

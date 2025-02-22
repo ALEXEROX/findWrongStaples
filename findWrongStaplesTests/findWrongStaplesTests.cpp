@@ -71,8 +71,8 @@ namespace findWrongStaplesTests
 
 		TEST_METHOD(SingleChar)
 		{
-			vector<string> code = { "a" };
-			vector<string> words = { "a" };
+			vector<wstring> code = { L"a" };
+			vector<wstring> words = { L"a" };
 			vector<vector<int>> positions;
 			int wordsCount = findWordsInCode(code, words, positions);
 			int exp_wordsCount = 1;
@@ -87,8 +87,8 @@ namespace findWrongStaplesTests
 
 		TEST_METHOD(SingleWord)
 		{
-			vector<string> code = { "Code" };
-			vector<string> words = { "Code" };
+			vector<wstring> code = { L"Code" };
+			vector<wstring> words = { L"Code" };
 			vector<vector<int>> positions;
 			int wordsCount = findWordsInCode(code, words, positions);
 			int exp_wordsCount = 1;
@@ -103,8 +103,8 @@ namespace findWrongStaplesTests
 
 		TEST_METHOD(TwoChars)
 		{
-			vector<string> code = { "b a" };
-			vector<string> words = { "a", "b"};
+			vector<wstring> code = { L"b a" };
+			vector<wstring> words = { L"a", L"b"};
 			vector<vector<int>> positions;
 			int wordsCount = findWordsInCode(code, words, positions);
 			int exp_wordsCount = 2;
@@ -119,8 +119,8 @@ namespace findWrongStaplesTests
 
 		TEST_METHOD(TwoWords)
 		{
-			vector<string> code = { "Code cpp" };
-			vector<string> words = { "cpp", "Code" };
+			vector<wstring> code = { L"Code cpp" };
+			vector<wstring> words = { L"cpp", L"Code" };
 			vector<vector<int>> positions;
 			int wordsCount = findWordsInCode(code, words, positions);
 			int exp_wordsCount = 2;
@@ -135,8 +135,8 @@ namespace findWrongStaplesTests
 
 		TEST_METHOD(WordInOtherWord)
 		{
-			vector<string> code = { "Expected" };
-			vector<string> words = { "ect" };
+			vector<wstring> code = { L"Expected" };
+			vector<wstring> words = { L"ect" };
 			vector<vector<int>> positions;
 			int wordsCount = findWordsInCode(code, words, positions);
 			int exp_wordsCount = 1;
@@ -151,8 +151,8 @@ namespace findWrongStaplesTests
 
 		TEST_METHOD(OneWordTwoTimes)
 		{
-			vector<string> code = { "codecode" };
-			vector<string> words = { "code" };
+			vector<wstring> code = { L"codecode" };
+			vector<wstring> words = { L"code" };
 			vector<vector<int>> positions;
 			int wordsCount = findWordsInCode(code, words, positions);
 			int exp_wordsCount = 2;
@@ -167,8 +167,8 @@ namespace findWrongStaplesTests
 
 		TEST_METHOD(OneWordTwoTimesInDifferentLines)
 		{
-			vector<string> code = { "code", "code"};
-			vector<string> words = { "code" };
+			vector<wstring> code = { L"code", L"code"};
+			vector<wstring> words = { L"code" };
 			vector<vector<int>> positions;
 			int wordsCount = findWordsInCode(code, words, positions);
 			int exp_wordsCount = 2;
@@ -183,8 +183,8 @@ namespace findWrongStaplesTests
 
 		TEST_METHOD(IntersectingWords)
 		{
-			vector<string> code = { "corocoroco" };
-			vector<string> words = { "coroco" };
+			vector<wstring> code = { L"corocoroco" };
+			vector<wstring> words = { L"coroco" };
 			vector<vector<int>> positions;
 			int wordsCount = findWordsInCode(code, words, positions);
 			int exp_wordsCount = 1;
@@ -199,8 +199,8 @@ namespace findWrongStaplesTests
 
 		TEST_METHOD(TornWord)
 		{
-			vector<string> code = { "coro", "co" };
-			vector<string> words = { "coroco" };
+			vector<wstring> code = { L"coro", L"co" };
+			vector<wstring> words = { L"coroco" };
 			vector<vector<int>> positions;
 			int wordsCount = findWordsInCode(code, words, positions);
 			int exp_wordsCount = 0;
@@ -214,7 +214,7 @@ namespace findWrongStaplesTests
 
 		TEST_METHOD(VoidString)
 		{
-			vector<string> code = { "" };
+			vector<wstring> code = { L"" };
 			vector<vector<int>> positions;
 			int wrongStaples = findWrongStaples(code, positions);
 			int exp_wrongStaples = 0;
@@ -223,7 +223,7 @@ namespace findWrongStaplesTests
 
 		TEST_METHOD(SingleStaple)
 		{
-			vector<string> code = { "(" };
+			vector<wstring> code = { L"(" };
 			vector<vector<int>> positions;
 			vector<vector<int>> exp_positions{ {0, 0} };
 			int wrongStaples = findWrongStaples(code, positions);
@@ -238,7 +238,7 @@ namespace findWrongStaplesTests
 
 		TEST_METHOD(RoundStaples)
 		{
-			vector<string> code = { "()" };
+			vector<wstring> code = { L"()" };
 			vector<vector<int>> positions;
 			int wrongStaples = findWrongStaples(code, positions);
 			int exp_wrongStaples = 0;
@@ -247,7 +247,7 @@ namespace findWrongStaplesTests
 
 		TEST_METHOD(ExpandedRoundStaples)
 		{
-			vector<string> code = { ")(" };
+			vector<wstring> code = { L")(" };
 			vector<vector<int>> positions;
 			vector<vector<int>> exp_positions{ {0, 0}, {0, 1} };
 			int wrongStaples = findWrongStaples(code, positions);
@@ -262,7 +262,7 @@ namespace findWrongStaplesTests
 
 		TEST_METHOD(TwoPaarsRoundStaples)
 		{
-			vector<string> code = { "()()" };
+			vector<wstring> code = { L"()()" };
 			vector<vector<int>> positions;
 			int wrongStaples = findWrongStaples(code, positions);
 			int exp_wrongStaples = 0;
@@ -271,7 +271,7 @@ namespace findWrongStaplesTests
 
 		TEST_METHOD(TwoPaarsNestedRoundStaples)
 		{
-			vector<string> code = { "(())" };
+			vector<wstring> code = { L"(())" };
 			vector<vector<int>> positions;
 			int wrongStaples = findWrongStaples(code, positions);
 			int exp_wrongStaples = 0;
@@ -280,7 +280,7 @@ namespace findWrongStaplesTests
 
 		TEST_METHOD(RoundStaplesInFigureStaples)
 		{
-			vector<string> code = { "{()}" };
+			vector<wstring> code = { L"{()}" };
 			vector<vector<int>> positions;
 			int wrongStaples = findWrongStaples(code, positions);
 			int exp_wrongStaples = 0;
@@ -289,7 +289,7 @@ namespace findWrongStaplesTests
 
 		TEST_METHOD(IntersectingStaples)
 		{
-			vector<string> code = { "{(})" };
+			vector<wstring> code = { L"{(})" };
 			vector<vector<int>> positions;
 			vector<vector<int>> exp_positions { {0, 1}, {0, 3} };
 			int wrongStaples = findWrongStaples(code, positions);
@@ -304,7 +304,7 @@ namespace findWrongStaplesTests
 
 		TEST_METHOD(ThreePaarsNestedStaples)
 		{
-			vector<string> code = { "{[()]}" };
+			vector<wstring> code = { L"{[()]}" };
 			vector<vector<int>> positions;
 			int wrongStaples = findWrongStaples(code, positions);
 			int exp_wrongStaples = 0;
@@ -313,7 +313,7 @@ namespace findWrongStaplesTests
 
 		TEST_METHOD(MultiTest)
 		{
-			vector<string> code = { "{(})()([[]])([[)" };
+			vector<wstring> code = { L"{(})()([[]])([[)" };
 			vector<vector<int>> positions;
 			vector<vector<int>> exp_positions{ {0, 1}, {0, 3}, {0, 13}, {0, 14} };
 			int wrongStaples = findWrongStaples(code, positions);
@@ -328,16 +328,16 @@ namespace findWrongStaplesTests
 
 		TEST_METHOD(DefaultCppProject)
 		{
-			vector<string> code =  { "#include <iostream>",
-			"",
-			"using namespace std;",
-			"",
-			"int main(int argc, char* argv[])",
-			"{",
-			"    cout << \"Hello world\" << endl;",
-			"",
-			"    return 0;",
-			"}"};
+			vector<wstring> code =  { L"#include <iostream>",
+			L"",
+			L"using namespace std;",
+			L"",
+			L"int main(int argc, char* argv[])",
+			L"{",
+			L"    cout << \"Hello world\" << endl;",
+			L"",
+			L"    return 0;",
+			L"}"};
 
 			vector<vector<int>> positions;
 			int wrongStaples = findWrongStaples(code, positions);
@@ -347,16 +347,16 @@ namespace findWrongStaplesTests
 
 		TEST_METHOD(SkippedSquareStaple)
 		{
-			vector<string> code =  { "#include <iostream>",
-			"",
-			"using namespace std;",
-			"",
-			"int main(int argc, char* argv])",
-			"{",
-			"    cout << \"Hello world\" << endl;",
-			"",
-			"    return 0;",
-			"}"};
+			vector<wstring> code =  { L"#include <iostream>",
+			L"",
+			L"using namespace std;",
+			L"",
+			L"int main(int argc, char* argv])",
+			L"{",
+			L"    cout << \"(\" << endl;",
+			L"",
+			L"    return 0;",
+			L"}"};
 
 			vector<vector<int>> positions;
 			vector<vector<int>> exp_positions{ {4, 29} };
@@ -372,16 +372,16 @@ namespace findWrongStaplesTests
 
 		TEST_METHOD(SkippedRoundStaple)
 		{
-			vector<string> code =  { "#include <iostream>",
-			"",
-			"using namespace std;",
-			"",
-			"int main(int argc, char* argv[]",
-			"{",
-			"    cout << \"Hello world\" << endl;",
-			"",
-			"    return 0;",
-			"}"};
+			vector<wstring> code =  { L"#include <iostream>",
+			L"",
+			L"using namespace std;",
+			L"",
+			L"int main(int argc, char* argv[]",
+			L"{",
+			L"    cout << \"Hello world\" << endl;",
+			L"",
+			L"    return 0;",
+			L"}"};
 
 			vector<vector<int>> positions;
 			vector<vector<int>> exp_positions{ {4, 8} };
@@ -397,16 +397,16 @@ namespace findWrongStaplesTests
 
 		TEST_METHOD(SkippedFigureStaple)
 		{
-			vector<string> code =  { "#include <iostream>",
-			"",
-			"using namespace std;",
-			"",
-			"int main(int argc, char* argv[])",
-			"{",
-			"    cout << \"Hello world\" << endl;",
-			"",
-			"    return 0;",
-			""};
+			vector<wstring> code =  { L"#include <iostream>",
+			L"",
+			L"using namespace std;",
+			L"",
+			L"int main(int argc, char* argv[])",
+			L"{",
+			L"    cout << \"Hello world\" << endl;",
+			L"",
+			L"    return 0;",
+			L""};
 
 			vector<vector<int>> positions;
 			vector<vector<int>> exp_positions{ {5, 0} };
@@ -422,16 +422,16 @@ namespace findWrongStaplesTests
 
 		TEST_METHOD(OnelineComment)
 		{
-			vector<string> code = { "#include <iostream>",
-			"",
-			"using namespace std;",
-			"",
-			"int main(int argc, char* argv[])",
-			"{",
-			"    cout << \"Hello world\" << endl; // ;)",
-			"",
-			"    return 0;",
-			"}" };
+			vector<wstring> code = { L"#include <iostream>",
+			L"",
+			L"using namespace std;",
+			L"",
+			L"int main(int argc, char* argv[])",
+			L"{",
+			L"    cout << \"Hello world\" << endl; // ;)",
+			L"",
+			L"    return 0;",
+			L"}" };
 
 			vector<vector<int>> positions;
 			int wrongStaples = findWrongStaples(code, positions);
@@ -441,18 +441,18 @@ namespace findWrongStaplesTests
 
 		TEST_METHOD(MultilineComment)
 		{
-			vector<string> code = { "#include <iostream>",
-			"",
-			"using namespace std;",
-			"",
-			"int main(int argc, char* argv[])",
-			"{",
-			"    cout << \"Hello world\" << endl; /*",
-			")",
-			"*/",
-			"",
-			"    return 0;",
-			"}" };
+			vector<wstring> code = { L"#include <iostream>",
+			L"",
+			L"using namespace std;",
+			L"",
+			L"int main(int argc, char* argv[])",
+			L"{",
+			L"    cout << \"Hello world\" << endl; /*",
+			L")",
+			L"*/",
+			L"",
+			L"    return 0;",
+			L"}" };
 
 			vector<vector<int>> positions;
 			int wrongStaples = findWrongStaples(code, positions);
@@ -462,16 +462,16 @@ namespace findWrongStaplesTests
 
 		TEST_METHOD(Char)
 		{
-			vector<string> code = { "#include <iostream>",
-			"",
-			"using namespace std;",
-			"",
-			"int main(int argc, char* argv[])",
-			"{",
-			"    cout << ']' << endl;",
-			"",
-			"    return 0;",
-			"}" };
+			vector<wstring> code = { L"#include <iostream>",
+			L"",
+			L"using namespace std;",
+			L"",
+			L"int main(int argc, char* argv[])",
+			L"{",
+			L"    cout << \']\' << endl;",
+			L"",
+			L"    return 0;",
+			L"}" };
 
 			vector<vector<int>> positions;
 			int wrongStaples = findWrongStaples(code, positions);
@@ -481,16 +481,16 @@ namespace findWrongStaplesTests
 
 		TEST_METHOD(String)
 		{
-			vector<string> code = { "#include <iostream>",
-			"",
-			"using namespace std;",
-			"",
-			"int main(int argc, char* argv[])",
-			"{",
-			"    cout << \":}\" << endl; ",
-			"",
-			"    return 0;",
-			"}" };
+			vector<wstring> code = { L"#include <iostream>",
+			L"",
+			L"using namespace std;",
+			L"",
+			L"int main(int argc, char* argv[])",
+			L"{",
+			L"    cout << \":}\" << endl; ",
+			L"",
+			L"    return 0;",
+			L"}" };
 
 			vector<vector<int>> positions;
 			int wrongStaples = findWrongStaples(code, positions);
@@ -500,16 +500,16 @@ namespace findWrongStaplesTests
 
 		TEST_METHOD(SingleQuotationMarkInChar)
 		{
-			vector<string> code = { "#include <iostream>",
-			"",
-			"using namespace std;",
-			"",
-			"int main(int argc, char* argv[])",
-			"{",
-			"    cout << ('\\\'') << endl;", // cout << '\'' << endl;
-			"",
-			"    return 0;",
-			"}" };
+			vector<wstring> code = { L"#include <iostream>",
+			L"",
+			L"using namespace std;",
+			L"",
+			L"int main(int argc, char* argv[])",
+			L"{",
+			L"    cout << ('\\\'') << endl;", // cout << '\'' << endl;
+			L"",
+			L"    return 0;",
+			L"}" };
 
 			vector<vector<int>> positions;
 			int wrongStaples = findWrongStaples(code, positions);
@@ -519,16 +519,16 @@ namespace findWrongStaplesTests
 
 		TEST_METHOD(DoubleQuotationMarkInString)
 		{
-			vector<string> code = { "#include <iostream>",
-			"",
-			"using namespace std;",
-			"",
-			"int main(int argc, char* argv[])",
-			"{",
-			"    cout << \"\\\" Hello world :) \" << endl;", // cout << "\" Hello world \"" << endl;
-			"",
-			"    return 0;",
-			"}" };
+			vector<wstring> code = { L"#include <iostream>",
+			L"",
+			L"using namespace std;",
+			L"",
+			L"int main(int argc, char* argv[])",
+			L"{",
+			L"    cout << \"\\\" Hello world :) \" << endl;", // cout << "\" Hello world \"" << endl;
+			L"",
+			L"    return 0;",
+			L"}" };
 
 			vector<vector<int>> positions;
 			int wrongStaples = findWrongStaples(code, positions);
@@ -543,8 +543,8 @@ namespace findWrongStaplesTests
 
 		TEST_METHOD(NoSpaces)
 		{
-			string code = "int i = 0;";
-			string exp_code = "int i = 0;";
+			wstring code = L"int i = 0;";
+			wstring exp_code = L"int i = 0;";
 			int spaces = deleteBeginSpaces(code);
 			int exp_spaces = 0;
 			Assert::AreEqual(exp_spaces, spaces);
@@ -553,8 +553,8 @@ namespace findWrongStaplesTests
 
 		TEST_METHOD(OneSpace)
 		{
-			string code = " int i = 0;";
-			string exp_code = "int i = 0;";
+			wstring code = L" int i = 0;";
+			wstring exp_code = L"int i = 0;";
 			int spaces = deleteBeginSpaces(code);
 			int exp_spaces = 1;
 			Assert::AreEqual(exp_spaces, spaces);
@@ -563,8 +563,8 @@ namespace findWrongStaplesTests
 
 		TEST_METHOD(FourSpaces)
 		{
-			string code = "    int i = 0;";
-			string exp_code = "int i = 0;";
+			wstring code = L"    int i = 0;";
+			wstring exp_code = L"int i = 0;";
 			int spaces = deleteBeginSpaces(code);
 			int exp_spaces = 4;
 			Assert::AreEqual(exp_spaces, spaces);
@@ -573,8 +573,8 @@ namespace findWrongStaplesTests
 
 		TEST_METHOD(OneTab)
 		{
-			string code = "\tint i = 0;";
-			string exp_code = "int i = 0;";
+			wstring code = L"\tint i = 0;";
+			wstring exp_code = L"int i = 0;";
 			int spaces = deleteBeginSpaces(code);
 			int exp_spaces = 1;
 			Assert::AreEqual(exp_spaces, spaces);
@@ -583,8 +583,8 @@ namespace findWrongStaplesTests
 
 		TEST_METHOD(OneSpaceAndOneTab)
 		{
-			string code = " \tint i = 0;";
-			string exp_code = "int i = 0;";
+			wstring code = L" \tint i = 0;";
+			wstring exp_code = L"int i = 0;";
 			int spaces = deleteBeginSpaces(code);
 			int exp_spaces = 2;
 			Assert::AreEqual(exp_spaces, spaces);
