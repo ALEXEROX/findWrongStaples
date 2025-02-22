@@ -74,7 +74,7 @@ namespace findWrongStaplesTests
 			vector<wstring> code = { L"a" };
 			vector<wstring> words = { L"a" };
 			vector<vector<int>> positions;
-			int wordsCount = findWordsInCode(code, words, positions);
+			int wordsCount = findSubstringsInCode(code, words, positions);
 			int exp_wordsCount = 1;
 			vector<vector<int>> exp_positions = { {0,0} };
 			Assert::AreEqual(exp_wordsCount, wordsCount);
@@ -90,7 +90,7 @@ namespace findWrongStaplesTests
 			vector<wstring> code = { L"Code" };
 			vector<wstring> words = { L"Code" };
 			vector<vector<int>> positions;
-			int wordsCount = findWordsInCode(code, words, positions);
+			int wordsCount = findSubstringsInCode(code, words, positions);
 			int exp_wordsCount = 1;
 			vector<vector<int>> exp_positions = { {0,0} };
 			Assert::AreEqual(exp_wordsCount, wordsCount);
@@ -106,7 +106,7 @@ namespace findWrongStaplesTests
 			vector<wstring> code = { L"b a" };
 			vector<wstring> words = { L"a", L"b"};
 			vector<vector<int>> positions;
-			int wordsCount = findWordsInCode(code, words, positions);
+			int wordsCount = findSubstringsInCode(code, words, positions);
 			int exp_wordsCount = 2;
 			vector<vector<int>> exp_positions = { {0,0}, {0,2} };
 			Assert::AreEqual(exp_wordsCount, wordsCount);
@@ -122,7 +122,7 @@ namespace findWrongStaplesTests
 			vector<wstring> code = { L"Code cpp" };
 			vector<wstring> words = { L"cpp", L"Code" };
 			vector<vector<int>> positions;
-			int wordsCount = findWordsInCode(code, words, positions);
+			int wordsCount = findSubstringsInCode(code, words, positions);
 			int exp_wordsCount = 2;
 			vector<vector<int>> exp_positions = { {0,0}, {0,5} };
 			Assert::AreEqual(exp_wordsCount, wordsCount);
@@ -138,7 +138,7 @@ namespace findWrongStaplesTests
 			vector<wstring> code = { L"Expected" };
 			vector<wstring> words = { L"ect" };
 			vector<vector<int>> positions;
-			int wordsCount = findWordsInCode(code, words, positions);
+			int wordsCount = findSubstringsInCode(code, words, positions);
 			int exp_wordsCount = 1;
 			vector<vector<int>> exp_positions = { {0,3} };
 			Assert::AreEqual(exp_wordsCount, wordsCount);
@@ -154,7 +154,7 @@ namespace findWrongStaplesTests
 			vector<wstring> code = { L"codecode" };
 			vector<wstring> words = { L"code" };
 			vector<vector<int>> positions;
-			int wordsCount = findWordsInCode(code, words, positions);
+			int wordsCount = findSubstringsInCode(code, words, positions);
 			int exp_wordsCount = 2;
 			vector<vector<int>> exp_positions = { {0,0}, {0,4} };
 			Assert::AreEqual(exp_wordsCount, wordsCount);
@@ -170,7 +170,7 @@ namespace findWrongStaplesTests
 			vector<wstring> code = { L"code", L"code"};
 			vector<wstring> words = { L"code" };
 			vector<vector<int>> positions;
-			int wordsCount = findWordsInCode(code, words, positions);
+			int wordsCount = findSubstringsInCode(code, words, positions);
 			int exp_wordsCount = 2;
 			vector<vector<int>> exp_positions = { {0,0}, {1,0} };
 			Assert::AreEqual(exp_wordsCount, wordsCount);
@@ -186,7 +186,7 @@ namespace findWrongStaplesTests
 			vector<wstring> code = { L"corocoroco" };
 			vector<wstring> words = { L"coroco" };
 			vector<vector<int>> positions;
-			int wordsCount = findWordsInCode(code, words, positions);
+			int wordsCount = findSubstringsInCode(code, words, positions);
 			int exp_wordsCount = 1;
 			vector<vector<int>> exp_positions = { {0,0} };
 			Assert::AreEqual(exp_wordsCount, wordsCount);
@@ -202,7 +202,7 @@ namespace findWrongStaplesTests
 			vector<wstring> code = { L"coro", L"co" };
 			vector<wstring> words = { L"coroco" };
 			vector<vector<int>> positions;
-			int wordsCount = findWordsInCode(code, words, positions);
+			int wordsCount = findSubstringsInCode(code, words, positions);
 			int exp_wordsCount = 0;
 			Assert::AreEqual(exp_wordsCount, wordsCount);
 		}

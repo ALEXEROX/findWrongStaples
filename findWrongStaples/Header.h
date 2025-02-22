@@ -12,13 +12,13 @@ using namespace std;
 */
 int findWrongStaples(vector<wstring> &code, vector<vector<int>> &positions);
 
-/*! Поиск слов в коде c++
+/*! Поиск подстрок в коде c++, игнорируя комментарии, символьные и строковые константы
 * \param[in] code - текст кода
 * \param[in] words - искомые слова
 * \param[out] positions - позиции (индексы строк и символов теста) найденных слов
 * \return количество найденных слов
 */
-int findWordsInCode(vector<wstring>& code, vector<wstring> words, vector<vector<int>>& positions);
+int findSubstringsInCode(vector<wstring>& code, vector<wstring> words, vector<vector<int>>& positions);
 
 /*! Проверка, являются ли скобки парными
 * \param[in] first - первая скобка

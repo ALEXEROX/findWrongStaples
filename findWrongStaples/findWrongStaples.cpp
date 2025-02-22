@@ -130,7 +130,7 @@ int findWrongStaples(vector<wstring>& code, vector<vector<int>>& positions)
 	positions.clear();
 	vector<vector<int>> staples;
 	
-	findWordsInCode(code, { L"(", L"{", L"[", L")", L"}", L"]" }, staples); // Находим позиции скобок
+	findSubstringsInCode(code, { L"(", L"{", L"[", L")", L"}", L"]" }, staples); // Находим позиции скобок
 	  
 	
 	int innerLength = 0; // Принимаем длину проверки за 0
@@ -199,7 +199,7 @@ int findWrongStaples(vector<wstring>& code, vector<vector<int>>& positions)
 	return positions.size(); // Вернуть количество неправильно расположенных скобок
 }
 
-int findWordsInCode(vector<wstring>& code, vector<wstring> words, vector<vector<int>>& positions)
+int findSubstringsInCode(vector<wstring>& code, vector<wstring> words, vector<vector<int>>& positions)
 {
 	bool inMultyLineComment = false;
 
