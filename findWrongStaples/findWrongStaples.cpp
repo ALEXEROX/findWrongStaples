@@ -187,12 +187,12 @@ int findWrongStaples(vector<wstring>& code, vector<vector<int>>& positions)
 
 int findWordsInCode(vector<wstring>& code, vector<wstring> words, vector<vector<int>>& positions)
 {
-	bool inMultyLineComment = false,
-		inString = false;
+	bool inMultyLineComment = false;
 
 	// Для каждой строки
 	for (int line = 0; line < code.size(); line++)
 	{
+		bool inString = false;
 		// Для каждого символа, кроме последнего
 		for (int symbol = 0; symbol < code[line].size(); symbol++)
 		{
