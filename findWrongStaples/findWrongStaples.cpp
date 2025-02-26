@@ -31,7 +31,7 @@ int main(int argc, char* argv[])
 		return 0;
 	}
 
-	//Лкалзация
+	//Локалзация
 	input.imbue(locale("en_US.UTF-8"));
 	output.imbue(locale("en_US.UTF-8"));
 
@@ -41,14 +41,14 @@ int main(int argc, char* argv[])
 	// Проверка входного файла
 	if (inputFile.substr(inputFile.size() - 4, 4) != ".cpp")
 	{
-		cout << "Входной файл имеет неподдерживаемый формат" << endl;
+		cout << "Входной файл должен иметь расширение .cpp" << endl;
 		return 0;
 	}
 
 	// Проверка выходного файла
 	if (outputFile.substr(outputFile.size() - 4, 4) != ".txt")
 	{
-		cout << "Выходной файл имеет неподдерживаемый формат" << endl;
+		cout << "Выходной файл должен иметь расширение .txt" << endl;
 		return 0;
 	}
 
@@ -62,7 +62,7 @@ int main(int argc, char* argv[])
 		// Проверка количества симво"ов в строке
  		if (line.size() > 1000)
 		{
-			cout << "Количество символов в строке(-ах) превышено" << endl;
+			cout << "Количество символов в строке(-ах) превышает максимальное значение в 255" << endl;
 			return 0;
 		}
 	}
@@ -70,7 +70,7 @@ int main(int argc, char* argv[])
 	// Проверка количества строк
 	if (lines > 255)
 	{
-		cout << "Количество строк превышено" << endl;
+		cout << "Количество строк превышает максимальное количество в 1000" << endl;
 
 		return 0;
 	}
@@ -207,6 +207,7 @@ int findSubstringsInCode(vector<wstring>& code, vector<wstring> words, vector<ve
 	for (int line = 0; line < code.size(); line++)
 	{
 		bool inString = false;
+
 		// Для каждого символа, кроме последнего
 		for (int symbol = 0; symbol < code[line].size(); symbol++)
 		{
@@ -277,10 +278,13 @@ bool isPairedStaples(char first, char second)
 
 int deleteBeginSpaces(wstring& str)
 {
-	int begin = 0;
-	while (str[begin] == ' ' || str[begin] == '\t')
-		begin++;
-	str = str.substr(begin);
+	int begin = 0; // Считаем, что пробелв и знаков табуляции нет
 
-	return begin;
+	// Пока в начале есть проблы и знаки табуляции
+	while (str[begin] == ' ' || str[begin] == '\t')
+		begin++; // Считаем их количество
+
+	str = str.substr(begin); // Удаляем пробела и знаки табуляции
+
+	return begin; // Возвращаем количество удалённых пробелов и знаков табуляции
 }
