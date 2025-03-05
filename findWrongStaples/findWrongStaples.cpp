@@ -2,6 +2,7 @@
 
 int main(int argc, char* argv[])
 {
+	setlocale(LC_ALL, "RU");
 
 	// Пути файлов
 	string inputFile = argv[1];
@@ -9,34 +10,6 @@ int main(int argc, char* argv[])
 
 	wifstream input;
 	wofstream output;
-
-	// Открытие файлов
-	try
-	{
-		input.open(inputFile, ios::in);
-	}
-	catch(const char* error_message)
-	{
-		cout << "Неверно указан входной файл. Возможно, файл не существует" << endl;
-		return 0;
-	}
-
-	try
-	{
-		output.open(outputFile, ios::out);
-	}
-	catch (const char* error_message)
-	{
-		cout << "Неверно указан выходной файл. Возможно, файл уже существует или имеет ограниченые права доступа." << endl;
-		return 0;
-	}
-
-	//Локалзация
-	input.imbue(locale("en_US.UTF-8"));
-	output.imbue(locale("en_US.UTF-8"));
-
-	vector<wstring> code;
-	vector<vector<int>> positions;
 
 	// Проверка входного файла
 	if (inputFile.substr(inputFile.size() - 4, 4) != ".cpp")
@@ -51,6 +24,27 @@ int main(int argc, char* argv[])
 		cout << "Выходной файл должен иметь расширение .txt" << endl;
 		return 0;
 	}
+
+	// Открытие файлов
+	input.open(inputFile, ios::in);
+	if(input.fail())
+	{ 
+		cout << "Неверно указан входной файл. Возможно файл не существует" << endl;
+		return 0;
+	}
+
+	output.open(outputFile, ios::out);
+	if (output.fail()) {
+		cout << "Неверно указан выходной файл. Возможно, файл имеет ограниченые права доступа." << endl;
+		return 0;
+	}
+
+	//Локалзация
+	input.imbue(locale("en_US.UTF-8"));
+	output.imbue(locale("en_US.UTF-8"));
+
+	vector<wstring> code;
+	vector<vector<int>> positions;
 
 	// Записываем код с файла
 	int lines = 0;
@@ -81,7 +75,7 @@ int main(int argc, char* argv[])
 	// Вывод результат поиска в выходной файл
 	if (!wrongStaples)
 	{
-		output << L"Проврка прошла успешно" << endl;
+		output << L"Проверка прошла успешно" << endl;
 	}
 	else
 	{
