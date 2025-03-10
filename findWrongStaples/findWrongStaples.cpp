@@ -49,20 +49,20 @@ int main(int argc, char* argv[])
 	// Записываем код с файла
 	int lines = 0;
 	wstring line;
-	while (getline(input, line) && lines++ <= 255)
+	while (getline(input, line) && lines++ <= 1000)
 	{
-		code.push_back(line);
-
-		// Проверка количества симво"ов в строке
- 		if (line.size() > 1000)
+		// Проверка количества символов в строке
+		if (line.size() > 255)
 		{
 			cout << "Количество символов в строке(-ах) превышает максимальное значение в 255" << endl;
 			return 0;
 		}
+
+		code.push_back(line);
 	}
 
 	// Проверка количества строк
-	if (lines > 255)
+	if (lines > 1000)
 	{
 		cout << "Количество строк превышает максимальное количество в 1000" << endl;
 
