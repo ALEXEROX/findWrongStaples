@@ -201,6 +201,7 @@ int findSubstringsInCode(vector<wstring>& code, vector<wstring> words, vector<ve
 	for (int line = 0; line < code.size(); line++)
 	{
 		bool inString = false;
+		bool inOnelineComment = false;
 
 		// Для каждого символа, кроме последнего
 		for (int symbol = 0; symbol < code[line].size(); symbol++)
@@ -212,7 +213,11 @@ int findSubstringsInCode(vector<wstring>& code, vector<wstring> words, vector<ve
 				if (code[line][symbol] == '/')
 				{
 					if (code[line][symbol + 1] == '/') // Если следующий символ является косой чертой
-						break; // Перейти на следующую строку
+					{
+						inOnelineComment = true; // Мы находимся в однострочном комментарии
+						symbol++; // Перейти на два символа вперед
+						continue; 
+					}
 					else if (code[line][symbol + 1] == '*') // Иначе если следующий символ является звёздочкой
 					{
 						inMultyLineComment = true; // Мы в многострочном комментарии
@@ -220,23 +225,23 @@ int findSubstringsInCode(vector<wstring>& code, vector<wstring> words, vector<ve
 						continue;
 					}
 				}
-				else if (code[line][symbol] == '\'') // Иначе если символ является единичкой кавычкой
+				if (code[line][symbol] == '\'') // Если символ является единичкой кавычкой
 				{
 					// Если символ является кавычкой, переходим на два символа вперёд, нначе если следующий символ является обратной косой чертой, переходим на три символа вперёд, переходим на четыре символа вперёд
 					symbol += code[line][symbol + 1] == '\'' ? 1 : (code[line][symbol + 1] != '\\' ? 2 : 3);
 					continue;
 				}
-				else if (code[line][symbol] == '\"') // Иначе если символ является двойной кавычкой
+				if (code[line][symbol] == '\"') // Если символ является двойной кавычкой
 				{
 					inString = !inString; // Статус нахождения в строке меняется на противоположный
 					continue; // Переходим на следующий символ
 				}
-				else if (code[line][symbol] == '\\' && code[line][symbol + 1] == '\"') // Иначе если символ является обратной косой чертой и следующий символ является двойной кавычкой
+				if (code[line][symbol] == '\\' && code[line][symbol + 1] == '\"') // Если символ является обратной косой чертой и следующий символ является двойной кавычкой
 				{
 					symbol++; // Переходим на два символа вперёд
 					continue;
 				}
-				else if (code[line][symbol] == '*' && code[line][symbol + 1] == '/') // Иначе если символ является звёздочкой и следующий символ является косой чертой
+				if (code[line][symbol] == '*' && code[line][symbol + 1] == '/') // Если символ является звёздочкой и следующий символ является косой чертой
 				{
 					inMultyLineComment = false; // Мы не в многострочном комментарии
 					symbol++; // Переходим на два символа вперёд
@@ -244,8 +249,8 @@ int findSubstringsInCode(vector<wstring>& code, vector<wstring> words, vector<ve
 				}
 			}
 
-			// Если мы не в многострочном комментарии и не в строке
-			if (!inMultyLineComment && !inString)
+			// Если мы не в комментарии и не в строке
+			if (!inOnelineComment && !inMultyLineComment && !inString)
 			{
 				// Для каждой искомой подстроки
 				for (int i = 0; i < words.size(); i++)
