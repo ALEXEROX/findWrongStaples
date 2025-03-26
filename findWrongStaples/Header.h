@@ -25,7 +25,7 @@ int findSubstringsInCode(vector<wstring>& code, vector<wstring> words, vector<ve
 * \param[in] second - вторая скобка
 * \return true - если скобки парные, false - если скобки непарные
 */
-bool isPairedStaples(char first, char second);
+bool arePairedBrackets(char first, char second);
 
 /*! Удаление начальных пробелов и знаков табуляции из строки
 * param[in|out] str - обрабатываемый текст

@@ -141,7 +141,7 @@ int findWrongStaples(vector<wstring>& code, vector<vector<int>>& positions)
 			char nextSymbol = code[(*(iter + innerLength + 1))[0]][(*(iter + innerLength + 1))[1]]; // Позиция правой скобки равна сумме позиции итератора и длины проверки
 
 			// Если скобки являются парными
-			if (isPairedStaples(currentSymbol, nextSymbol))
+			if (arePairedBrackets(currentSymbol, nextSymbol))
 			{
 				// Если длина проверки не равна нулю
 				if (innerLength != 0)
@@ -270,7 +270,7 @@ int findSubstringsInCode(vector<wstring>& code, vector<wstring> words, vector<ve
 	return positions.size(); // Возвращаем количество вхождений
 }
 
-bool isPairedStaples(char first, char second)
+bool arePairedBrackets(char first, char second)
 {
 	return first == '(' && second == ')' || first == '[' && second == ']' || first == '{' && second == '}';
 }

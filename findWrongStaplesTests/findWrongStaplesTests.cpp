@@ -6,7 +6,7 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace findWrongStaplesTests
 {
-	TEST_CLASS(IsPairedStaplesTest)
+	TEST_CLASS(ArePairedBracketsTest)
 	{
 	public:
 
@@ -14,7 +14,7 @@ namespace findWrongStaplesTests
 		{
 			char firstStaple = '(';
 			char secondStaple = ')';
-			bool pairedStaples = isPairedStaples(firstStaple, secondStaple);
+			bool pairedStaples = arePairedBrackets(firstStaple, secondStaple);
 			bool exp_pairedStaples = true;
 			Assert::AreEqual(exp_pairedStaples, pairedStaples);
 		}
@@ -23,7 +23,7 @@ namespace findWrongStaplesTests
 		{
 			char firstStaple = '[';
 			char secondStaple = ']';
-			bool pairedStaples = isPairedStaples(firstStaple, secondStaple);
+			bool pairedStaples = arePairedBrackets(firstStaple, secondStaple);
 			bool exp_pairedStaples = true;
 			Assert::AreEqual(exp_pairedStaples, pairedStaples);
 		}
@@ -32,7 +32,7 @@ namespace findWrongStaplesTests
 		{
 			char firstStaple = '{';
 			char secondStaple = '}';
-			bool pairedStaples = isPairedStaples(firstStaple, secondStaple);
+			bool pairedStaples = arePairedBrackets(firstStaple, secondStaple);
 			bool exp_pairedStaples = true;
 			Assert::AreEqual(exp_pairedStaples, pairedStaples);
 		}
@@ -41,7 +41,7 @@ namespace findWrongStaplesTests
 		{
 			char firstStaple = '(';
 			char secondStaple = ']';
-			bool pairedStaples = isPairedStaples(firstStaple, secondStaple);
+			bool pairedStaples = arePairedBrackets(firstStaple, secondStaple);
 			bool exp_pairedStaples = false;
 			Assert::AreEqual(exp_pairedStaples, pairedStaples);
 		}
@@ -50,7 +50,7 @@ namespace findWrongStaplesTests
 		{
 			char firstStaple = ']';
 			char secondStaple = ']';
-			bool pairedStaples = isPairedStaples(firstStaple, secondStaple);
+			bool pairedStaples = arePairedBrackets(firstStaple, secondStaple);
 			bool exp_pairedStaples = false;
 			Assert::AreEqual(exp_pairedStaples, pairedStaples);
 		}
@@ -59,7 +59,7 @@ namespace findWrongStaplesTests
 		{
 			char firstStaple = ']';
 			char secondStaple = '[';
-			bool pairedStaples = isPairedStaples(firstStaple, secondStaple);
+			bool pairedStaples = arePairedBrackets(firstStaple, secondStaple);
 			bool exp_pairedStaples = false;
 			Assert::AreEqual(exp_pairedStaples, pairedStaples);
 		}
