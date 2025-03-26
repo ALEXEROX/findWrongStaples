@@ -535,6 +535,62 @@ namespace findWrongStaplesTests
 			int exp_wrongStaples = 0;
 			Assert::AreEqual(exp_wrongStaples, wrongStaples);
 		}
+
+
+		TEST_METHOD(OnelineCommentInMultilineComment)
+		{
+			vector<wstring> code = { L"int main() { /*",
+			L"    // return 0; { */",
+			L"}"
+			};
+
+			vector<vector<int>> positions;
+			int wrongStaples = findWrongStaples(code, positions);
+			int exp_wrongStaples = 0;
+			Assert::AreEqual(exp_wrongStaples, wrongStaples);
+		}
+
+
+		TEST_METHOD(MultilineCommentInOnelineComment)
+		{
+			vector<wstring> code = { L"int main() {",
+			L"    // return 0; /*{ */",
+			L"}"
+			};
+
+			vector<vector<int>> positions;
+			int wrongStaples = findWrongStaples(code, positions);
+			int exp_wrongStaples = 0;
+			Assert::AreEqual(exp_wrongStaples, wrongStaples);
+		}
+
+
+		TEST_METHOD(StringInOnelineComment)
+		{
+			vector<wstring> code = { L"int main() {",
+			L"    // return 0; \"{ \"",
+			L"}"
+			};
+
+			vector<vector<int>> positions;
+			int wrongStaples = findWrongStaples(code, positions);
+			int exp_wrongStaples = 0;
+			Assert::AreEqual(exp_wrongStaples, wrongStaples);
+		}
+
+
+		TEST_METHOD(StringInMultilineComment)
+		{
+			vector<wstring> code = { L"int main() { /*",
+			L"    return 0; \"{ \" */",
+			L"}"
+			};
+
+			vector<vector<int>> positions;
+			int wrongStaples = findWrongStaples(code, positions);
+			int exp_wrongStaples = 0;
+			Assert::AreEqual(exp_wrongStaples, wrongStaples);
+		}
 	};
 
 	TEST_CLASS(DeleteBeginSpacesTest)
