@@ -79,11 +79,12 @@ int main(int argc, char* argv[])
 	}
 	else
 	{
+		vector<wstring> tempCode = code;
 		output << L"Обнаружено " << wrongStaples << L" ошиб" << ((wrongStaples % 10 == 1 && wrongStaples % 100 / 10 != 1) ? L"ка" : ((wrongStaples % 10 >= 2 && wrongStaples % 10 <= 4 && wrongStaples % 100 / 10 != 1) ? L"ки" : L"ок")) << endl;
 
 		output << positions[0][0] + 1 << L" строка:" << endl;
-		int clearedBegin = deleteBeginSpaces(code[positions[0][0]]);
-		output << code[positions[0][0]] << endl;
+		int clearedBegin = deleteBeginSpaces(tempCode[positions[0][0]]);
+		output << tempCode[positions[0][0]] << endl;
 		for (int i = 0; i < positions[0][1] - clearedBegin; i++)
 			output << L" ";
 		output << L"^";
@@ -99,8 +100,8 @@ int main(int argc, char* argv[])
 			else
 			{
 				output << endl << positions[i][0] + 1 << L" строка:" << endl;
-				clearedBegin = deleteBeginSpaces(code[positions[i][0]]);
-				output << code[positions[i][0]] << endl;
+				clearedBegin = deleteBeginSpaces(tempCode[positions[i][0]]);
+				output << tempCode[positions[i][0]] << endl;
 				for (int j = 0; j < positions[i][1] - clearedBegin; j++)
 					output << L" ";
 				output << L"^";
